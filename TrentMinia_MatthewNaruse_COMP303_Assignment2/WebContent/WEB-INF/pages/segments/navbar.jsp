@@ -5,7 +5,7 @@
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
  -->
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<span class="navbar-brand">DigiTel</span>
 	<ul class="navbar-nav">
@@ -13,22 +13,22 @@
 			<a class="nav-link" href="index.jsp">Home</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../order.jsp" >Order</a>
+			<a class="nav-link" href="order.html">Order</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../checkout.jsp">Checkout</a>
+			<a class="nav-link" href="checkout.html">Checkout</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../confirm-order.jsp">Confirm Order</a>
+			<a class="nav-link" href="confirm-order.html">Confirm Order</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../profile.jsp">Profile</a>
+			<a class="nav-link" href="profile.html">Profile</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../register.jsp">Register</a>
+			<a class="nav-link" href="register.html">Register</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../view-order.jsp">View Order</a>
+			<a class="nav-link" href="view-order.html">View Order</a>
 		</li>
 	</ul>
 </nav>
