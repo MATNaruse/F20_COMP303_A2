@@ -10,19 +10,25 @@
 	<span class="navbar-brand">DigiTel</span>
 	<ul class="navbar-nav">
 		<li class="nav-item">
-			<a class="nav-link" href="#">Home</a>
+			<a class="nav-link" href="index.jsp">Home</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">New Order</a>
+			<a class="nav-link" href="../order.jsp" >Order</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Profile</a>
+			<a class="nav-link" href="../checkout.jsp">Checkout</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Additional Settings</a>
+			<a class="nav-link" href="../confirm-order.jsp">Confirm Order</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Logout</a>
+			<a class="nav-link" href="../profile.jsp">Profile</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="../register.jsp">Register</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="../view-order.jsp">View Order</a>
 		</li>
 	</ul>
 </nav>

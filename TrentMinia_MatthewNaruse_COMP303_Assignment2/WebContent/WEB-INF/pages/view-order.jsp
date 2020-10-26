@@ -8,5 +8,5 @@
  
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
-<h1>Index</h1>
+<h1>View Order</h1>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
