@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  
 	<!-- @MattFromMatt: UPDATE THIS WHEN PACKAGE NAME IS CREATED -->
-	<!-- <context:component-scan base-package="matn.comp303.a1" /> -->
+	<context:component-scan base-package="comp303.a2.temp" />
  
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/"/>

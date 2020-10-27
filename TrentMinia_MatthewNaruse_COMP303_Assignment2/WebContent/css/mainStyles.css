@@ -1,0 +1,17 @@
+/*
+	COMP303-001 Assignment 2
+	Due Date: Nov 02, 2020
+	Submitted: ??? ## 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+*/
+
+body {
+	/*Background Related*/
+	background-image: url("luis-villasmil-4V8uMZx8FYA-unsplash.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center center;	
+	
+}
