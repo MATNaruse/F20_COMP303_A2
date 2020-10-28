@@ -9,11 +9,12 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  
 	<!-- @MattFromMatt: UPDATE THIS WHEN PACKAGE NAME IS CREATED -->
-	<context:component-scan base-package="comp303.a2.temp" />
+	<context:component-scan base-package="com.jpa.spring.form" />
  
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
+	<bean id="customer" name="customer" class="comp303.a2.Customer"/>
 </beans>
