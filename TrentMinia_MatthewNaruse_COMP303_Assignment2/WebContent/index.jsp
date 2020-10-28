@@ -11,7 +11,7 @@
 
 <h1>Login</h1>
 
-<form:form method="POST" action="login.html" modelAttribute="customer">
+<form:form method="POST">
 	
 	<form:label class="sr-only" path="userName">User Name</form:label>
 	<form:input class="form-control" path="userName"/>
