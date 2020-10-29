@@ -3,6 +3,7 @@ package comp303.a2.controllers;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,18 +16,20 @@ import comp303.a2.entities.Customer;
 @Controller
 public class CustomerController {
 
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView showlogin() {
-		return new ModelAndView("index", "customer", new Customer());
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public ModelAndView preplogin(Model model) {
+		model.addAttribute("customer", new Customer());
+		return new ModelAndView("login", "customer", new Customer());
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ModelAndView login(@Valid @ModelAttribute("customer")Customer cust, 
+	@RequestMapping(value="/trylogin", method=RequestMethod.POST)
+	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, 
 								BindingResult result, 
 								ModelMap model) {
-		if (result.hasErrors()) return new ModelAndView("index");
+		if (result.hasErrors()) return null;
 		
-		model.addAttribute("username", cust.getUserName());
+		model.addAttribute("customer", cust);
+		model.addAttribute("userName", cust.getUserName());
 		model.addAttribute("password", cust.getPassword());
 		
 		return new ModelAndView("order");

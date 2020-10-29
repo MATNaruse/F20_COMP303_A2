@@ -6,7 +6,7 @@
 	300 549 638 : Matthew Naruse
 */
 
-package comp303.a2;
+package comp303.a2.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

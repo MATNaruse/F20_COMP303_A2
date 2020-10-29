@@ -9,18 +9,6 @@
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 
-
-
-<form:form method="POST" action="TrentMinia_MatthewNaruse_COMP303_Assignment2/login" 
-			class="card text-center form-signin" modelAttribute="customer">
-
-	<h1 class="card-title">Login</h1>
-	<form:label for="userName" path="userName">User Name</form:label> 
-	<form:input id="userName" class="form-control" placeholder="Username" path="userName"/>
-	<form:label for="password" path="password">Password</form:label>
-	<form:input id="password" class="form-control" placeholder="Password" path="password"/>
-	
-	<input type="submit" value="Log In"/>
-</form:form>
-
+<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/login">Log In</a>
+<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/register">Register</a>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
