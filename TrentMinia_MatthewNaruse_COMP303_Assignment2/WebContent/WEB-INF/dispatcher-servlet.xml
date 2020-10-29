@@ -23,5 +23,8 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
-	<bean id="customer" name="customer" class="comp303.a2.Customer"/>
+	<bean id="customer" name="customer" class="comp303.a2.entities.Customer"/>
+	<bean id="product" name="product" class="comp303.a2.entities.Product"/>
+	<bean id="order" name="order" class="comp303.a2.entities.Order"/>
+	
 </beans>

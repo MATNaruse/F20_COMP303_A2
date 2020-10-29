@@ -11,5 +11,13 @@
 		<class>comp303.a2.entities.Customer</class>
 		<class>comp303.a2.entities.Product</class>
 		<class>comp303.a2.entities.Order</class>
+		
+		<properties>
+			<!-- WILL NEED TO BE MODIFIED MANUALLY UNTIL A MORE CONVENIENT WAY IS FOUND -->
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/digitel" />
+			<property name="javax.persistence.jdbc.user" value="admin" />
+			<property name="javax.persistence.jdbc.password" value="admin" />
+		</properties>
 	</persistence-unit>
 </persistence>
