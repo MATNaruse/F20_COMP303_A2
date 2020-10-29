@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import comp303.a2.entities.Customer;
 
 @Controller
-public class CustomerController {
-
+public class CustomerController {	
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView preplogin(Model model) {
 		return new ModelAndView("login", "customer", new Customer());
@@ -34,10 +34,6 @@ public class CustomerController {
 								BindingResult result, 
 								ModelMap model) {
 		if (result.hasErrors()) return null;
-		
-		model.addAttribute("customer", cust);
-		model.addAttribute("userName", cust.getUserName());
-		model.addAttribute("password", cust.getPassword());
 		
 		return new ModelAndView("order");
 	}
@@ -53,14 +49,6 @@ public class CustomerController {
 									ModelMap model) {
 		if (result.hasErrors()) return null;
 		model.addAttribute("customer", cust);
-//		model.addAttribute("userName", cust.getUserName());
-//		model.addAttribute("password", cust.getPassword());
-//		model.addAttribute("firstname", cust.getFirstname());
-//		model.addAttribute("lastname", cust.getLastname());
-//		model.addAttribute("address", cust.getAddress());
-//		model.addAttribute("city", cust.getCity());
-//		model.addAttribute("postalCode", cust.getPostalCode());
-//		model.addAttribute("country", cust.getCountry());
 		
 		
 		return new ModelAndView("profile", "cust", cust);

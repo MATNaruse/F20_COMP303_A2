@@ -12,15 +12,30 @@
 <form:form method="POST"
 			action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/newregister"
 			modelAttribute="customer"
-			class="card text-center form-signin">
-	<h1>Register</h1>
+			class="card form-signin">
+	<h1 class="text-center">Register</h1>
+	<form:label for="userName" path="userName">User Name</form:label>
 	<form:input class="form-control" id="userName" path="userName" placeholder="Username"/>
+	
+	<form:label for="password" path="password">Password</form:label>
 	<form:password class="form-control" id="password" path="password" placeholder="Password"/>
+	<hr>
+	<form:label for="firstName" path="firstname">First Name</form:label>
 	<form:input class="form-control" id="firstName" path="firstname" placeholder="First Name"/>
+	
+	<form:label for="lastName" path="lastname">Last Name</form:label>
 	<form:input class="form-control" id="lastName" path="lastname" placeholder="Last Name"/>
+	<hr>
+	<form:label for="address" path="address">Address</form:label>
 	<form:input class="form-control" id="address" path="address" placeholder="Address"/>
+	
+	<form:label for="city" path="city">City</form:label>
 	<form:input class="form-control" id="city" path="city" placeholder="City"/>
+	
+	<form:label for="country" path="country">Country</form:label>
 	<form:input class="form-control" id="country" path="country" placeholder="Country"/>
+	
+	<form:label for="postalCode" path="postalCode">Postal Code</form:label>
 	<form:input class="form-control" id="postalCode" path="postalCode" placeholder="Postal Code"/>
 
 	
