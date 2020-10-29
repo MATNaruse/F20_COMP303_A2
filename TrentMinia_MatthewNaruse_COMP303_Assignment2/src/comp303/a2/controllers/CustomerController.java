@@ -18,7 +18,6 @@ public class CustomerController {
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView preplogin(Model model) {
-		model.addAttribute("customer", new Customer());
 		return new ModelAndView("login", "customer", new Customer());
 	}
 	
@@ -33,5 +32,28 @@ public class CustomerController {
 		model.addAttribute("password", cust.getPassword());
 		
 		return new ModelAndView("order");
+	}
+	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public ModelAndView freshRegister(Model model) {
+		return new ModelAndView("register", "customer", new Customer());
+	}
+	
+	@RequestMapping(value="newregister", method=RequestMethod.POST)
+	public ModelAndView registerNew(@Valid @ModelAttribute("customer") Customer cust, 
+									BindingResult result, 
+									ModelMap model) {
+		if (result.hasErrors()) return null;
+		model.addAttribute("customer", cust);
+		model.addAttribute("userName", cust.getUserName());
+		model.addAttribute("password", cust.getPassword());
+		model.addAttribute("firstname", cust.getFirstname());
+		model.addAttribute("lastname", cust.getLastname());
+		model.addAttribute("address", cust.getAddress());
+		model.addAttribute("city", cust.getCity());
+		model.addAttribute("postalCode", cust.getPostalCode());
+		model.addAttribute("country", cust.getCountry());
+		
+		return new ModelAndView("profile");
 	}
 }

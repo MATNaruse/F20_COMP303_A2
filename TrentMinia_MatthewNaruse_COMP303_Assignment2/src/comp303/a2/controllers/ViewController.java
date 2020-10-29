@@ -37,10 +37,11 @@ public class ViewController {
 		return new ModelAndView("profile");
 	}
 	
-	@GetMapping("/register")
-	public ModelAndView register() {
-		return new ModelAndView("register");
-	}
+	// Handled in CustomerController
+//	@GetMapping("/register")
+//	public ModelAndView register() {
+//		return new ModelAndView("register");
+//	}
 	
 	@GetMapping("/view-order")
 	public ModelAndView view_order() {

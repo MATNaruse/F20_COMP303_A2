@@ -21,7 +21,7 @@
 	<form:label for="password" path="password">Password</form:label>
 	<form:password id="password" class="form-control" placeholder="Password" path="password"/>
 	
-	<input type="submit" value="Log In"/>
+	<input class="btn btn-primary" type="submit" value="Log In"/>
 </form:form>
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
