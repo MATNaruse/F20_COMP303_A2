@@ -11,12 +11,14 @@
 
 
 
-<form:form method="POST" action="TrentMinia_MatthewNaruse_COMP303_Assignment2/login.html" 
+<form:form method="POST" action="TrentMinia_MatthewNaruse_COMP303_Assignment2/login" 
 			class="card text-center form-signin" modelAttribute="customer">
 
 	<h1 class="card-title">Login</h1>
-	<input id="userName" class="form-control" placeholder="Username"/>
-	<input id="password" class="form-control" placeholder="Password"/>
+	<form:label for="userName" path="userName">User Name</form:label> 
+	<form:input id="userName" class="form-control" placeholder="Username" path="userName"/>
+	<form:label for="password" path="password">Password</form:label>
+	<form:input id="password" class="form-control" placeholder="Password" path="password"/>
 	
 	<input type="submit" value="Log In"/>
 </form:form>
