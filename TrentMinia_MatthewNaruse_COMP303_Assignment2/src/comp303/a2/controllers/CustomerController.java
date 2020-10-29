@@ -8,6 +8,10 @@
 
 package comp303.a2.controllers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -23,12 +27,16 @@ import comp303.a2.entities.Customer;
 
 @Controller
 public class CustomerController {	
+	private static EntityManagerFactory factory;
+	private static EntityManager eMngr;
 	
+	// Login Page - GET
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView preplogin(Model model) {
 		return new ModelAndView("login", "customer", new Customer());
 	}
 	
+	// Login Page - POST
 	@RequestMapping(value="/trylogin", method=RequestMethod.POST)
 	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, 
 								BindingResult result, 
@@ -38,11 +46,15 @@ public class CustomerController {
 		return new ModelAndView("order");
 	}
 	
+	
+	// Register Page - GET
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView freshRegister(Model model) {
 		return new ModelAndView("register", "customer", new Customer());
 	}
 	
+	
+	// Register Page - POST
 	@RequestMapping(value="newregister", method=RequestMethod.POST)
 	public ModelAndView registerNew(@Valid @ModelAttribute("customer") Customer cust, 
 									BindingResult result, 
@@ -50,7 +62,14 @@ public class CustomerController {
 		if (result.hasErrors()) return null;
 		model.addAttribute("customer", cust);
 		
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
 		
+		eMngr.getTransaction().begin();
+		eMngr.persist(cust);
+		eMngr.getTransaction().commit();
+		eMngr.close();
+
 		return new ModelAndView("profile", "cust", cust);
 	}
 }
