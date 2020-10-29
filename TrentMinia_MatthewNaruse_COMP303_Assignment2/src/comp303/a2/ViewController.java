@@ -1,3 +1,11 @@
+/*
+	COMP303-001 Assignment 2
+	Due Date: Nov 02, 2020
+	Submitted: ??? ## 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+*/
+
 package comp303.a2;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewController {
 
+	/* TEMPORARY CONTROLLER CLASS FOR HYPERLINKS */
+	
 	@GetMapping("/order")
 	public ModelAndView order() {
 		return new ModelAndView("order");

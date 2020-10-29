@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	COMP303-001 Assignment 2
+	Due Date: Nov 02, 2020
+	Submitted: ??? ## 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

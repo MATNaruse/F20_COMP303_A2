@@ -1,3 +1,11 @@
+/*
+	COMP303-001 Assignment 2
+	Due Date: Nov 02, 2020
+	Submitted: ??? ## 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+*/
+
 package comp303.a2.entities;
 
 import java.io.Serializable;
@@ -69,4 +77,9 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 	}
    
+	/* ADD METHODS HERE
+	 * - Calculate Total (quantity * product.price)
+	 * - Determine "Cancel-able" ((currentDate - deliveryDate) < 24hrs)
+	 * */
+	
 }
