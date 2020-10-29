@@ -1,3 +1,11 @@
+<!--
+	COMP303-001 Assignment 2
+	Due Date: Nov 02, 2020
+	Submitted: ??? ## 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>TrentMinia_MatthewNaruse_COMP303_Assignment2</groupId>
@@ -63,6 +71,13 @@
 		<groupId>javax.validation</groupId>
 		<artifactId>validation-api</artifactId>
 		<version>2.0.1.Final</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+	<dependency>
+		<groupId>org.eclipse.persistence</groupId>
+		<artifactId>eclipselink</artifactId>
+		<version>2.7.7</version>
 	</dependency>
   
   </dependencies>

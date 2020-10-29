@@ -28,12 +28,12 @@
 			<li class="nav-item">
 				<a class="nav-link" href="confirm-order.html">Confirm Order</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="profile.html">Profile</a>
-			</li>
-			<li class="nav-item">
+			</li> -->
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="register.html">Register</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="view-order.html">View Order</a>
 			</li>
