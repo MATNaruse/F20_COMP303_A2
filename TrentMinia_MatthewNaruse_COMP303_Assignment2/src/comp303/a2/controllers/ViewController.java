@@ -32,10 +32,11 @@ public class ViewController {
 		return new ModelAndView("confirm-order");
 	}
 	
-	@GetMapping("/profile")
-	public ModelAndView profile() {
-		return new ModelAndView("profile");
-	}
+	// Handled in CustomerController
+//	@GetMapping("/profile")
+//	public ModelAndView profile() {
+//		return new ModelAndView("profile");
+//	}
 	
 	// Handled in CustomerController
 //	@GetMapping("/register")

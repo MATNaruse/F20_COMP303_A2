@@ -45,15 +45,16 @@ public class CustomerController {
 									ModelMap model) {
 		if (result.hasErrors()) return null;
 		model.addAttribute("customer", cust);
-		model.addAttribute("userName", cust.getUserName());
-		model.addAttribute("password", cust.getPassword());
-		model.addAttribute("firstname", cust.getFirstname());
-		model.addAttribute("lastname", cust.getLastname());
-		model.addAttribute("address", cust.getAddress());
-		model.addAttribute("city", cust.getCity());
-		model.addAttribute("postalCode", cust.getPostalCode());
-		model.addAttribute("country", cust.getCountry());
+//		model.addAttribute("userName", cust.getUserName());
+//		model.addAttribute("password", cust.getPassword());
+//		model.addAttribute("firstname", cust.getFirstname());
+//		model.addAttribute("lastname", cust.getLastname());
+//		model.addAttribute("address", cust.getAddress());
+//		model.addAttribute("city", cust.getCity());
+//		model.addAttribute("postalCode", cust.getPostalCode());
+//		model.addAttribute("country", cust.getCountry());
 		
-		return new ModelAndView("profile");
+		
+		return new ModelAndView("profile", "cust", cust);
 	}
 }

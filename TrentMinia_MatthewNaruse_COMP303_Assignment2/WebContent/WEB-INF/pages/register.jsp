@@ -20,8 +20,9 @@
 	<form:input class="form-control" id="lastName" path="lastname" placeholder="Last Name"/>
 	<form:input class="form-control" id="address" path="address" placeholder="Address"/>
 	<form:input class="form-control" id="city" path="city" placeholder="City"/>
-	<form:input class="form-control" id="postalCode" path="postalCode" placeholder="Postal Code"/>
 	<form:input class="form-control" id="country" path="country" placeholder="Country"/>
+	<form:input class="form-control" id="postalCode" path="postalCode" placeholder="Postal Code"/>
+
 	
 	<input class="btn btn-primary" type="submit" value="Register New Account"/>
 </form:form>
