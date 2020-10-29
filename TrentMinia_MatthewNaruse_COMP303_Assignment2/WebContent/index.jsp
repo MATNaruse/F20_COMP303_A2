@@ -9,15 +9,14 @@
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 
-<h1>Login</h1>
 
-<form:form method="POST">
-	
-	<form:label class="sr-only" path="userName">User Name</form:label>
-	<form:input class="form-control" path="userName"/>
-	
-	<form:label class="sr-only" path="password">Password</form:label>
-	<form:input class="form-control" path="password"/>
+
+<form:form method="POST" action="TrentMinia_MatthewNaruse_COMP303_Assignment2/login.html" 
+			class="card text-center form-signin" modelAttribute="customer">
+
+	<h1 class="card-title">Login</h1>
+	<input id="userName" class="form-control" placeholder="Username"/>
+	<input id="password" class="form-control" placeholder="Password"/>
 	
 	<input type="submit" value="Log In"/>
 </form:form>
