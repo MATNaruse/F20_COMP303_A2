@@ -19,24 +19,33 @@
 			<li class="nav-item">
 				<a class="nav-link" href="index.jsp">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="order.html">Order</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="checkout.html">Checkout</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="confirm-order.html">Confirm Order</a>
-			</li>
-			<!-- <li class="nav-item">
-				<a class="nav-link" href="profile.html">Profile</a>
-			</li> -->
-			<!-- <li class="nav-item">
-				<a class="nav-link" href="register.html">Register</a>
-			</li> -->
-			<li class="nav-item">
-				<a class="nav-link" href="view-order.html">View Order</a>
-			</li>
+			<% if (session.getAttribute("currentCustomer") != null) { %>
+				<li class="nav-item">
+					<a class="nav-link" href="order">Order</a>
+				</li>
+				<!-- Won't be normally accessed via NavBar
+					<li class="nav-item">
+						<a class="nav-link" href="checkout">Checkout</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="confirm-order">Confirm Order</a>
+					</li> 
+				-->
+				<li class="nav-item">
+					<a class="nav-link" href="profile">Profile</a>
+				</li>
+				<!-- Won't be normally accessed via NavBar
+					<li class="nav-item">
+						<a class="nav-link" href="register.html">Register</a>
+					</li> 
+					<li class="nav-item">
+						<a class="nav-link" href="view-order">View Order</a>
+					</li> 
+				-->
+				<li class="nav-item">
+					<a class="nav-link" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/logout">Logout</a>
+				</li>
+			<% } %>
 		</ul>
 	</div>
 </nav>

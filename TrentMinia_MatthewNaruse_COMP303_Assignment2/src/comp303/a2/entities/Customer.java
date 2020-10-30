@@ -104,4 +104,12 @@ public class Customer implements Serializable {
 	 * - getFullAddress?
 	 * */ 
 	
+	public String getFullName() {
+		return this.firstname + " " + this.lastname;
+	}
+	
+	public String getFullAddress() {
+		return String.format("%s, %s, %s, %s", this.address, this.city, this.country, this.postalCode);
+	}
+	
 }

@@ -17,8 +17,7 @@ import javax.persistence.*;
  * Entity implementation class for Entity: Order
  *
  */
-@Entity
-
+@Entity(name="Orders")
 public class Order implements Serializable {
 
 	
