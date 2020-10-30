@@ -19,10 +19,10 @@
 			<td>Password</td><td>${cust.password}</td>
 		</tr>
 		<tr>
-			<td>Name</td><td>${cust.fullname}</td>
+			<td>Name</td><td>${cust.getFullName()}</td>
 		</tr>
 		<tr>
-			<td>Address</td><td>${cust.fulladdress}</td>
+			<td>Address</td><td>${cust.getFullAddress()}</td>
 		</tr>
 	</table>
 </div>

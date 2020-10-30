@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -29,10 +31,11 @@ import comp303.a2.entities.Customer;
 public class CustomerController {	
 	private static EntityManagerFactory factory;
 	private static EntityManager eMngr;
+	private static HttpSession session;
 	
 	// Login Page - GET
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public ModelAndView preplogin(Model model) {
+	public ModelAndView preplogin() {
 		return new ModelAndView("login", "customer", new Customer());
 	}
 	
@@ -40,7 +43,8 @@ public class CustomerController {
 	@RequestMapping(value="/trylogin", method=RequestMethod.POST)
 	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, 
 								BindingResult result, 
-								ModelMap model) {
+								ModelMap model,
+								HttpServletRequest request) {
 		if (result.hasErrors()) return null;
 		
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
@@ -54,6 +58,8 @@ public class CustomerController {
 			
 			// If Passwords Match
 			if(cust.getPassword().equals(loginCustomer.getPassword())){
+				HttpSession session = request.getSession();
+				session.setAttribute("currentCustomer", loginCustomer);
 				return new ModelAndView("profile", "cust", loginCustomer);
 			}
 			
@@ -67,16 +73,20 @@ public class CustomerController {
 			System.out.print("CustomerController:login: " + ex.getMessage());
 			return new ModelAndView("login", "out_msg", "Username is Incorrect / Doesn't Exist");
 		}
-		
-		finally {
-			eMngr.close();
-		}
+	}
+	
+	// Logout Action - GET
+	@RequestMapping(value="/logout", method=RequestMethod.GET)	
+	public ModelAndView logout(HttpServletRequest request) {
+		session = request.getSession();
+		if(session.getAttribute("currentCustomer") != null) session.setAttribute("currentCustomer", null);
+		return new ModelAndView("index");
 	}
 	
 	
 	// Register Page - GET
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public ModelAndView freshRegister(Model model) {
+	public ModelAndView freshRegister() {
 		return new ModelAndView("register", "customer", new Customer());
 	}
 	
@@ -99,6 +109,9 @@ public class CustomerController {
 		 * ** It has something to do with the connection open and close
 		 * */
 		
+		/* AsOf30/10/2020: Seems to have resolved itself?
+		 * */
+		
 		
 		// Try to find if username exists in Customer Table
 		try {		
@@ -110,29 +123,37 @@ public class CustomerController {
 		}
 		
 		catch (javax.persistence.NoResultException nre) {
-			System.out.print("CustomerController:registerNew: " + nre.getMessage());
+			// Catches error if the username is available
+			System.out.println("CustomerController:registerNew: " + nre.getMessage());
+			System.out.println("CustomerController:registerNew: SAVING NEW CUSTOMER");
 			eMngr.persist(cust);
 			eMngr.getTransaction().commit();
 			eMngr.close();
+			
 			return new ModelAndView("profile", "cust", cust);
 		}
 		
 		catch (Exception ex){
+			// Catches any exception, 
 			eMngr.close();
-			System.out.print("CustomerController:registerNew: " + ex.getMessage());
-			return new ModelAndView("register", "out_msg", "Username Already Exists! (From inside Old Generic Catch)");
+			System.out.println("CustomerController:registerNew: " + ex.getMessage());
+			if(ex.getMessage().equals("Found Existing")) return new ModelAndView("register", "out_msg", "Username Already Exists! (From inside Old Generic Catch)");
+			else return new ModelAndView("register", "out_msg", "Unknown Error! (From inside Old Generic Catch)");
 		}
 	}
 	
 
-	// FromMatt: NOT CURRENTLY IMPLEMENTED -> Need to figure out Session Variables
-//	@RequestMapping(value="/profile", method=RequestMethod.GET)
-//	public ModelAndView viewProfile() {
-//		if(CustomerController.loggedInCustomer != null) {
-//			return new ModelAndView("profile", "cust", CustomerController.loggedInCustomer);
-//		}
-//		else {
-//			return new ModelAndView("login", "out_msg", "You must Log In First");
-//		}
-//	}
+	// RESOLVED
+	@RequestMapping(value="/profile", method=RequestMethod.GET)
+	public ModelAndView viewProfile(Model model, HttpServletRequest request) {
+		session = request.getSession();
+		if(session.getAttribute("currentCustomer") != null) {
+			return new ModelAndView("profile", "cust", session.getAttribute("currentCustomer"));
+		}
+		else {
+			ModelAndView login_prompt = this.preplogin();
+			login_prompt.addObject("out_msg", "You need to log in first");
+			return login_prompt;
+		}
+	}
 }

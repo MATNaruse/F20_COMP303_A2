@@ -28,14 +28,17 @@
 			<li class="nav-item">
 				<a class="nav-link" href="confirm-order">Confirm Order</a>
 			</li>
-			<!-- <li class="nav-item">
+			<li class="nav-item">
 				<a class="nav-link" href="profile.html">Profile</a>
-			</li> -->
+			</li>
 			<!-- <li class="nav-item">
 				<a class="nav-link" href="register.html">Register</a>
 			</li> -->
 			<li class="nav-item">
 				<a class="nav-link" href="view-order">View Order</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/logout">Logout</a>
 			</li>
 		</ul>
 	</div>
