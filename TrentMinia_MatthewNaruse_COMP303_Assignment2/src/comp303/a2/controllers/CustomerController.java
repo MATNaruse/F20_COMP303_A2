@@ -8,6 +8,8 @@
 
 package comp303.a2.controllers;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import comp303.a2.entities.Customer;
+import comp303.a2.entities.Order;
 
 @Controller
 public class CustomerController {	
@@ -92,7 +95,6 @@ public class CustomerController {
 		return new ModelAndView("register", "customer", new Customer());
 	}
 	
-	
 	// Register Page - POST
 	@RequestMapping(value="newregister", method=RequestMethod.POST)
 	public ModelAndView registerNew(@Valid @ModelAttribute("customer") Customer cust, 
@@ -103,24 +105,13 @@ public class CustomerController {
 		
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
-
-		/* TODO: Rewrite this Section
-		 * 1) Check to see if Username already exists
-		 * 2) If Not, Create new Account and go to Profile
-		 * 3) If it does, Return to Register
-		 * ** It has something to do with the connection open and close
-		 * */
-		
-		/* AsOf30/10/2020: Seems to have resolved itself?
-		 * */
-		
 		
 		// Try to find if username exists in Customer Table
 		try {		
 			eMngr.getTransaction().begin();
 			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
 			Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
-			System.out.print(loginCustomer.toString());
+			System.out.println(loginCustomer.toString());
 			throw new Exception("Found Existing");
 		}
 		
@@ -136,7 +127,7 @@ public class CustomerController {
 		}
 		
 		catch (Exception ex){
-			// Catches any exception, 
+			// Catches any exception, including user-defined "Found Existing"
 			eMngr.close();
 			System.out.println("CustomerController:registerNew: " + ex.getMessage());
 			if(ex.getMessage().equals("Found Existing")) return new ModelAndView("register", "out_msg", "Username Already Exists! (From inside Old Generic Catch)");
@@ -145,12 +136,19 @@ public class CustomerController {
 	}
 	
 
-	// RESOLVED
+	// Profile Page- GET
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView viewProfile(Model model, HttpServletRequest request) {
 		session = request.getSession();
 		if(session.getAttribute("currentCustomer") != null) {
-			return new ModelAndView("profile", "cust", session.getAttribute("currentCustomer"));
+			Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
+			ModelAndView currCustMV = new ModelAndView("profile", "cust", currCustOBJ);
+			List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
+			if (ordersList != null) {
+				System.out.println(ordersList);
+				currCustMV.addObject("orders", ordersList);
+			}
+			return currCustMV;
 		}
 		else {
 			ModelAndView login_prompt = this.preplogin();
@@ -158,4 +156,30 @@ public class CustomerController {
 			return login_prompt;
 		}
 	}
+	
+	private List<Order> displayOrders(int custId) {
+		List<Order> ordersList = null;
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+		
+		try {		
+			eMngr.getTransaction().begin();
+			Query q_getAllOrdersByCustId = eMngr.createQuery("Select e from Orders e");
+			ordersList = q_getAllOrdersByCustId.getResultList();
+			eMngr.close();
+		}
+		
+		catch (javax.persistence.NoResultException nre) {
+			// Catches error if customer has no orders
+			System.out.println("CustomerController:displayOrders: " + nre.getMessage());
+			eMngr.close();
+		}
+
+		return ordersList;
+
+
+	}
+	
+	
+	
 }
