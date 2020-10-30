@@ -36,21 +36,31 @@ public class CustomerController {
 	private static EntityManager eMngr;
 	private static HttpSession session;
 	
-	// Login Page - GET
+	/**
+	 * [GET] Mapping for an Empty Login Page
+	 * @return Login Page, with empty Customer Entity
+	 */
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView preplogin() {
 		// Returns Login page with Empty Customer Model
 		return new ModelAndView("login", "customer", new Customer());
 	}
 	
-	// Login Page - POST
+	/**
+	 * [POST] Mapping for Trying to Login
+	 * @param cust ModelAttribute of type Customer
+	 * @param result BindingResult
+	 * @param model ModelMap
+	 * @param request HttpServletRequest
+	 * @return Success: Profile Page | Fail: Login Page
+	 */
 	@RequestMapping(value="/trylogin", method=RequestMethod.POST)
 	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, BindingResult result, ModelMap model, HttpServletRequest request) {
 		
 		// Checks for errors first
 		if (result.hasErrors()) return null;
 		
-		// Instantiate EntityManagerFactory and EntityManager
+		// Instantiate New EntityManagerFactory and EntityManager
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
 		
@@ -81,16 +91,23 @@ public class CustomerController {
 		}
 
 		catch (Exception ex){
-			// If Username is incorrect/doesn't exist in the Customer Table
+			// Catching any other Exception
 			System.out.print("CustomerController:login: " + ex.getMessage());
 			return new ModelAndView("login", "out_msg", "Unexpected Error: " + ex.getMessage());
 		}
 	}
 	
-	// Logout Action - GET
+	/**
+	 * [GET] Mapping for Basic Action to Log out
+	 * @param request HttpServletRequest
+	 * @return Returns to Login Page, with success message
+	 */
 	@RequestMapping(value="/logout", method=RequestMethod.GET)	
 	public ModelAndView logout(HttpServletRequest request) {
+		// Ensuring we have session data
 		session = request.getSession();
+		
+		// If we have a logged in customer, remove them from session
 		if(session.getAttribute("currentCustomer") != null) session.setAttribute("currentCustomer", null);
 		ModelAndView loggedOut = this.preplogin();
 		loggedOut.addObject("out_msg", "You have successfully logged out!");
@@ -98,25 +115,40 @@ public class CustomerController {
 	}
 	
 	
-	// Register Page - GET
+	/**
+	 * [GET] Mapping for Empty Register Page
+	 * @return Register Page, with Empty Customer Entity
+	 */
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView freshRegister() {
+		// Returns Register Page with empty Customer
 		return new ModelAndView("register", "customer", new Customer());
 	}
 	
-	// Register Page - POST
+	/**
+	 * [POST] Mapping for Registering a New Customer
+	 * @param cust ModelAttribute, of type Customer
+	 * @param result BindingResult
+	 * @param model ModelMap
+	 * @param request HttpServletRequest
+	 * @return Success: Profile Page | Fail: Register Page
+	 */
 	@RequestMapping(value="newregister", method=RequestMethod.POST)
-	public ModelAndView registerNew(@Valid @ModelAttribute("customer") Customer cust, 
-									BindingResult result, 
-									ModelMap model) {
+	public ModelAndView registerNew(@Valid @ModelAttribute("customer") Customer cust, BindingResult result, ModelMap model, HttpServletRequest request) {
+		// Checks for errors first
 		if (result.hasErrors()) return null;
-		model.addAttribute("customer", cust);
 		
+		// TODO: I don't know if this model is actually needed
+		model.addAttribute("customer", cust); 
+		
+		// Instantiate New EntityManagerFactory and EntityManager
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
+		session = request.getSession();
 		
-		// Try to find if username exists in Customer Table
-		try {		
+		
+		try {
+			// Try to find if user name exists in Customer Table		
 			eMngr.getTransaction().begin();
 			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
 			Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
@@ -125,13 +157,17 @@ public class CustomerController {
 		}
 		
 		catch (javax.persistence.NoResultException nre) {
-			// Catches error if the username is available
+			// Catches error if query doesn't find a match -> Meaning Available User name
 			System.out.println("CustomerController:registerNew: " + nre.getMessage());
 			System.out.println("CustomerController:registerNew: SAVING NEW CUSTOMER");
+			
+			// Save new Customer to Table
 			eMngr.persist(cust);
 			eMngr.getTransaction().commit();
 			eMngr.close();
 			
+			// Setting Newly Registered Customer as Logged In
+			session.setAttribute("currentCustomer", cust);
 			return new ModelAndView("profile", "cust", cust);
 		}
 		
@@ -145,13 +181,25 @@ public class CustomerController {
 	}
 	
 
-	// Profile Page- GET
+	/**
+	 * [GET] Mapping for Profile Page
+	 * @param model Model
+	 * @param request HttpServletRequest
+	 * @return Success: Profile Page | Fail: Login Page
+	 */
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView viewProfile(Model model, HttpServletRequest request) {
+		//TODO: I don't exactly know if Model is still needed here again...
+		
 		session = request.getSession();
+		
+		// If there is a Customer logged in
 		if(session.getAttribute("currentCustomer") != null) {
+			
 			Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
 			ModelAndView currCustMV = new ModelAndView("profile", "cust", currCustOBJ);
+			
+			// Get Current Customer's Orders, if any
 			List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
 			if (ordersList != null) {
 				System.out.println(ordersList);
@@ -159,6 +207,9 @@ public class CustomerController {
 			}
 			return currCustMV;
 		}
+		
+		// If not logged in, then prompt them
+		// TODO: This has become a backup safety, as UI option to view profile while not logged in isn't possible.
 		else {
 			ModelAndView login_prompt = this.preplogin();
 			login_prompt.addObject("out_msg", "You need to log in first");
@@ -166,6 +217,11 @@ public class CustomerController {
 		}
 	}
 	
+	/**
+	 * Get a list of Orders, by Customer ID
+	 * @param custId Customer's ID
+	 * @return List<Order> of all Orders by Customer
+	 */
 	private List<Order> displayOrders(int custId) {
 		List<Order> ordersList = null;
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
