@@ -39,19 +39,22 @@ public class CustomerController {
 	// Login Page - GET
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView preplogin() {
+		// Returns Login page with Empty Customer Model
 		return new ModelAndView("login", "customer", new Customer());
 	}
 	
 	// Login Page - POST
 	@RequestMapping(value="/trylogin", method=RequestMethod.POST)
-	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, 
-								BindingResult result, 
-								ModelMap model,
-								HttpServletRequest request) {
+	public ModelAndView login(@Valid @ModelAttribute("customer") Customer cust, BindingResult result, ModelMap model, HttpServletRequest request) {
+		
+		// Checks for errors first
 		if (result.hasErrors()) return null;
 		
+		// Instantiate EntityManagerFactory and EntityManager
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
+		
+		
 		try {
 			// Find the Customer from Table using Username
 			eMngr.getTransaction().begin();
@@ -59,7 +62,7 @@ public class CustomerController {
 			Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
 			eMngr.close();
 			
-			// If Passwords Match
+			// Check to see if Passwords Match
 			if(cust.getPassword().equals(loginCustomer.getPassword())){
 				HttpSession session = request.getSession();
 				session.setAttribute("currentCustomer", loginCustomer);
@@ -70,11 +73,17 @@ public class CustomerController {
 			else return new ModelAndView("login", "out_msg", "Password is Incorrect");
 
 		}
+		
+		catch (javax.persistence.NoResultException nre) {
+			// If Username is incorrect/doesn't exist in the Customer Table
+			System.out.print("CustomerController:login: " + nre.getMessage());
+			return new ModelAndView("login", "out_msg", "Username is Incorrect / Doesn't Exist)");
+		}
 
 		catch (Exception ex){
 			// If Username is incorrect/doesn't exist in the Customer Table
 			System.out.print("CustomerController:login: " + ex.getMessage());
-			return new ModelAndView("login", "out_msg", "Username is Incorrect / Doesn't Exist");
+			return new ModelAndView("login", "out_msg", "Unexpected Error: " + ex.getMessage());
 		}
 	}
 	
@@ -146,7 +155,7 @@ public class CustomerController {
 			List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
 			if (ordersList != null) {
 				System.out.println(ordersList);
-				currCustMV.addObject("orders", ordersList);
+				currCustMV.addObject("ordersList", ordersList);
 			}
 			return currCustMV;
 		}
@@ -164,7 +173,7 @@ public class CustomerController {
 		
 		try {		
 			eMngr.getTransaction().begin();
-			Query q_getAllOrdersByCustId = eMngr.createQuery("Select e from Orders e");
+			Query q_getAllOrdersByCustId = eMngr.createQuery("Select e from Orders e where e.custId = :eCustId").setParameter("eCustId", custId);
 			ordersList = q_getAllOrdersByCustId.getResultList();
 			eMngr.close();
 		}

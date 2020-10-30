@@ -10,7 +10,9 @@
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 <div class="form-signin card">
 	<h1>Welcome to Digi Tel</h1>
-	<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/login">Log In</a>
-	<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/register">Register</a>
+	<% if (session.getAttribute("currentCustomer") == null) { %>
+		<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/login">Log In</a>
+		<a class="btn btn-primary" href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/register">Register</a>
+	<% } %>
 </div>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
