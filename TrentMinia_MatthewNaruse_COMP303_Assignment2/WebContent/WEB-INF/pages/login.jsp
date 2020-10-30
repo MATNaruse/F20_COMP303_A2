@@ -18,7 +18,15 @@
 	<h1 class="card-title">Login</h1>
 	
 	<c:if test="${not empty out_msg}">
-		<div class="alert alert-danger" >${out_msg}</div>
+		<c:choose>
+			<c:when test="${out_msg == 'You have successfully logged out!' }">
+				<div class="alert alert-success" >${out_msg}</div>
+			</c:when>
+			<c:otherwise>
+				<div class="alert alert-danger" >${out_msg}</div>
+			</c:otherwise>
+		</c:choose>
+		
 	</c:if>
 	
 	<form:label for="userName" path="userName">User Name</form:label> 

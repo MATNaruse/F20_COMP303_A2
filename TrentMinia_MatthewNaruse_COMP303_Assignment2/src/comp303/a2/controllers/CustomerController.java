@@ -80,7 +80,9 @@ public class CustomerController {
 	public ModelAndView logout(HttpServletRequest request) {
 		session = request.getSession();
 		if(session.getAttribute("currentCustomer") != null) session.setAttribute("currentCustomer", null);
-		return new ModelAndView("index");
+		ModelAndView loggedOut = this.preplogin();
+		loggedOut.addObject("out_msg", "You have successfully logged out!");
+		return loggedOut;
 	}
 	
 	
