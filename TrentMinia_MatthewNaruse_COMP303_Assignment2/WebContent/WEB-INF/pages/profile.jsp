@@ -18,10 +18,10 @@
 			<td>Password</td><td>${cust.password}</td>
 		</tr>
 		<tr>
-			<td>Name</td><td>${cust.firstname} ${cust.lastname}</td>
+			<td>Name</td><td>${cust.fullname}</td>
 		</tr>
 		<tr>
-			<td>Address</td><td>${cust.address}, ${cust.city}, ${cust.country}, ${cust.postalCode}</td>
+			<td>Address</td><td>${cust.fulladdress}</td>
 		</tr>
 	</table>
 </div>
