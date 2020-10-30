@@ -46,24 +46,30 @@ public class CustomerController {
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
 		try {
+			// Find the Customer from Table using Username
 			eMngr.getTransaction().begin();
 			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
 			Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
 			eMngr.close();
 			
+			// If Passwords Match
 			if(cust.getPassword().equals(loginCustomer.getPassword())){
-				model.addAttribute("");
 				return new ModelAndView("profile", "cust", loginCustomer);
 			}
 			
-			else {
-				return new ModelAndView("login", "out_msg", "Password is Incorrect");
-			}
+			// If Passwords DON'T Match 
+			else return new ModelAndView("login", "out_msg", "Password is Incorrect");
+
 		}
 
 		catch (Exception ex){
+			// If Username is incorrect/doesn't exist in the Customer Table
 			System.out.print("CustomerController:login: " + ex.getMessage());
 			return new ModelAndView("login", "out_msg", "Username is Incorrect / Doesn't Exist");
+		}
+		
+		finally {
+			eMngr.close();
 		}
 	}
 	
@@ -85,12 +91,48 @@ public class CustomerController {
 		
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
-		
-		eMngr.getTransaction().begin();
-		eMngr.persist(cust);
-		eMngr.getTransaction().commit();
-		eMngr.close();
 
-		return new ModelAndView("profile", "cust", cust);
+		/* TODO: Rewrite this Section
+		 * 1) Check to see if Username already exists
+		 * 2) If Not, Create new Account and go to Profile
+		 * 3) If it does, Return to Register
+		 * ** It has something to do with the connection open and close
+		 * */
+		
+		
+		// Try to find if username exists in Customer Table
+		try {		
+			eMngr.getTransaction().begin();
+			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
+			Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
+			System.out.print(loginCustomer.toString());
+			throw new Exception("Found Existing");
+		}
+		
+		catch (javax.persistence.NoResultException nre) {
+			System.out.print("CustomerController:registerNew: " + nre.getMessage());
+			eMngr.persist(cust);
+			eMngr.getTransaction().commit();
+			eMngr.close();
+			return new ModelAndView("profile", "cust", cust);
+		}
+		
+		catch (Exception ex){
+			eMngr.close();
+			System.out.print("CustomerController:registerNew: " + ex.getMessage());
+			return new ModelAndView("register", "out_msg", "Username Already Exists! (From inside Old Generic Catch)");
+		}
 	}
+	
+
+	// FromMatt: NOT CURRENTLY IMPLEMENTED -> Need to figure out Session Variables
+//	@RequestMapping(value="/profile", method=RequestMethod.GET)
+//	public ModelAndView viewProfile() {
+//		if(CustomerController.loggedInCustomer != null) {
+//			return new ModelAndView("profile", "cust", CustomerController.loggedInCustomer);
+//		}
+//		else {
+//			return new ModelAndView("login", "out_msg", "You must Log In First");
+//		}
+//	}
 }

@@ -20,13 +20,13 @@
 				<a class="nav-link" href="index.jsp">Home</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="order.html">Order</a>
+				<a class="nav-link" href="order">Order</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="checkout.html">Checkout</a>
+				<a class="nav-link" href="checkout">Checkout</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="confirm-order.html">Confirm Order</a>
+				<a class="nav-link" href="confirm-order">Confirm Order</a>
 			</li>
 			<!-- <li class="nav-item">
 				<a class="nav-link" href="profile.html">Profile</a>
@@ -35,7 +35,7 @@
 				<a class="nav-link" href="register.html">Register</a>
 			</li> -->
 			<li class="nav-item">
-				<a class="nav-link" href="view-order.html">View Order</a>
+				<a class="nav-link" href="view-order">View Order</a>
 			</li>
 		</ul>
 	</div>

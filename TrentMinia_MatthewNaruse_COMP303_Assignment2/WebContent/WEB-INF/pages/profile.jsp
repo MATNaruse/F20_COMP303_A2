@@ -8,6 +8,7 @@
  
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+
 <div class="card">
 	<h1>Profile</h1>
 	<table class="table">

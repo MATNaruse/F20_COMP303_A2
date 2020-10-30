@@ -6,6 +6,7 @@
 	300 549 638 : Matthew Naruse
  -->
  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 
@@ -14,6 +15,11 @@
 			modelAttribute="customer"
 			class="card form-signin">
 	<h1 class="text-center">Register</h1>
+	
+	<c:if test="${not empty out_msg}">
+		<div class="alert alert-danger" >${out_msg}</div>
+	</c:if>
+	
 	<form:label for="userName" path="userName">User Name</form:label>
 	<form:input class="form-control" id="userName" path="userName" placeholder="Username"/>
 	
