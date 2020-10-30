@@ -17,10 +17,10 @@ body {
 }
 
 .form-signin{
-  width: 100%;
-  max-width: 400px;
-  padding: 15px;
-  margin: 0 auto;
+	width: 100%;
+	max-width: 400px;
+	padding: 15px;
+	margin: 0 auto;
 }
 
 .card{
@@ -29,4 +29,21 @@ body {
 
 .btn{
 	margin:10px;
+}
+
+.profile-main{
+	width: 100%;
+	max-width: 300px;
+	padding: 15px;
+	margin: 20px 10px;
+}
+
+.profile-orders{
+	width: 100%;
+	padding: 15px;
+	margin: 20px 10px;
+}
+
+.profile-orders th{
+	text-align:center;
 }
