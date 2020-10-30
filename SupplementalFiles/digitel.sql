@@ -3,7 +3,7 @@ CREATE DATABASE digitel;
 USE digitel;
 CREATE TABLE Customer(
 	custId SMALLINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    userName varchar(30) NOT NULL,
+    userName varchar(30) UNIQUE NOT NULL,
     password varchar(30) NOT NULL,
     firstname varchar(30) NOT NULL,
     lastname varchar(30) NOT NULL,

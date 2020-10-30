@@ -17,9 +17,9 @@
 
 	<h1 class="card-title">Login</h1>
 	<form:label for="userName" path="userName">User Name</form:label> 
-	<form:input id="userName" class="form-control" placeholder="Username" path="userName"/>
+	<form:input id="userName" class="form-control" placeholder="Username" path="userName" required="required"/>
 	<form:label for="password" path="password">Password</form:label>
-	<form:password id="password" class="form-control" placeholder="Password" path="password"/>
+	<form:password id="password" class="form-control" placeholder="Password" path="password" required="required"/>
 	
 	<input class="btn btn-primary" type="submit" value="Log In"/>
 </form:form>

@@ -43,7 +43,23 @@ public class CustomerController {
 								ModelMap model) {
 		if (result.hasErrors()) return null;
 		
-		return new ModelAndView("order");
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+		
+		eMngr.getTransaction().begin();
+		Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
+		Customer loginCustomer = (Customer) q_getByUsername.getSingleResult();
+		Boolean passMatch = cust.getPassword().equals(loginCustomer.getPassword());
+		eMngr.close();
+		
+		
+		if(passMatch){
+			return new ModelAndView("profile", "cust", loginCustomer);
+		}
+		
+		else {
+			return new ModelAndView("login", "cust", cust);
+		}
 	}
 	
 	
