@@ -9,6 +9,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+
+<script src="js/profile.js"></script>
+
 <div class="card-group">
 	<div class="card profile-main">
 		<h2 class="text-center">Profile</h2>
@@ -23,6 +26,23 @@
 			</c:choose>
 		</c:if>
 		<div id="profileDetails" class="text-center">
+			<table class="table text-left">
+				<tr>
+					<td>Username</td><td>${cust.userName}</td>
+				</tr>
+				<tr>
+					<td>Password</td><td>${cust.password}</td>
+				</tr>
+				<tr>
+					<td>Name</td><td>${cust.getFullName()}</td>
+				</tr>
+				<tr>
+					<td>Address</td><td>${cust.getFullAddress()}</td>
+				</tr>
+			</table>
+			<button class="btn btn-primary" onClick="EditProfileTOGG()">Edit</button>
+		</div>
+		<div id="profileEditDetails" style="display:none;" class="text-center">
 			<form:form method="POST" modelAttribute="cust" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/save-profile">
 				<table class="table text-left">
 					<tr>
