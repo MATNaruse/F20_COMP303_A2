@@ -84,7 +84,7 @@
 		</div>
 	</div>
 	<c:choose>
-		<c:when test="${empty ordersList}">
+		<c:when test="${not empty ordersList}">
 			<div class="card profile-orders text-center">
 				<h2>Your Orders</h2>
 				<table class="table text-left">
@@ -93,7 +93,7 @@
 				</tr>
 				<c:forEach var="order" items="${ordersList}">
 					<tr>
-					<th>${order.orderId}</th><th>${order.productId}</th><th>${order.quantity}</th><th>${order.deliveryDate}</th><th>${order.orderStatus}</th><th><span class="btn btn-primary">View</span></th>
+					<td>${order.orderId}</td><td>${order.productId}</td><td>${order.quantity}</td><td>${order.deliveryDate}</td><td>${order.orderStatus}</td><td><span class="btn btn-primary">View</span></td>
 				</tr>
 				</c:forEach>
 				</table>

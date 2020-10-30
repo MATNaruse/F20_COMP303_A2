@@ -250,6 +250,8 @@ public class CustomerController {
 		
 		ModelAndView updatedProfileMV = new ModelAndView("profile", "cust", currCustOBJ);
 		updatedProfileMV.addObject("out_msg", "Profile Updated Successfully!");
+		List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
+		updatedProfileMV.addObject("ordersList", ordersList);
 		
 		return updatedProfileMV;
 	}
