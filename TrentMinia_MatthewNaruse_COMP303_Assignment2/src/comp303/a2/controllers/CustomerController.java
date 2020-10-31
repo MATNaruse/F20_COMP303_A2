@@ -81,7 +81,9 @@ public class CustomerController {
 			if(cust.getPassword().equals(loginCustomer.getPassword())){
 				HttpSession session = request.getSession();
 				session.setAttribute("currentCustomer", loginCustomer);
-				return new ModelAndView("profile", "cust", loginCustomer);
+				ModelAndView profileMV = new ModelAndView("profile", "cust", loginCustomer);
+				profileMV.addObject("ordersList", this.displayOrders(loginCustomer.getCustId()));
+				return profileMV;
 			}
 			
 			// If Passwords DON'T Match 

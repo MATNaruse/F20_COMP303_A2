@@ -13,7 +13,7 @@
 <script src="js/profile.js"></script>
 
 <div class="row d-flex justify-content-center">
-	<div class="card profile-main col-xl-3 col-md-10">
+	<div class="card profile-main col-lg-3 col-m-10">
 		<h2 class="text-center">Profile</h2>
 		<c:if test="${not empty out_msg}">
 			<c:choose>
@@ -85,7 +85,7 @@
 	</div>
 	<c:choose>
 		<c:when test="${not empty ordersList}">
-			<div class="card profile-orders col-xl-8 col-md-10">
+			<div class="card profile-orders col-lg-8 col-sm-10">
 				<h2>Your Orders</h2>
 				<table class="table">
 				<tr>
@@ -100,7 +100,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-		<div class="card profile-main text-center col-xl-9 col-md-10">
+		<div class="card profile-main text-center col-lg-8 col-sm-10">
 			<h2 class="font-italic">You have no orders!</h2>
 		</div>
 		</c:otherwise>

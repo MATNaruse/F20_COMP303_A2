@@ -19,6 +19,11 @@
 			<li class="nav-item">
 				<a class="nav-link" href="index.jsp">Home</a>
 			</li>
+			<% if (session.getAttribute("currentCustomer") == null) { %>
+				<li class="nav-item">
+						<a class="nav-link" href="login">Log In</a>
+				</li>
+			<% } %>
 			<% if (session.getAttribute("currentCustomer") != null) { %>
 				<li class="nav-item">
 					<a class="nav-link" href="order">Order</a>
