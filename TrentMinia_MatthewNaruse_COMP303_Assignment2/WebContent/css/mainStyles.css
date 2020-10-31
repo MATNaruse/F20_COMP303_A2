@@ -32,18 +32,12 @@ body {
 }
 
 .profile-main{
-	width: 100%;
-	max-width: 300px;
 	padding: 15px;
 	margin: 20px 10px;
 }
 
 .profile-orders{
-	width: 100%;
+	text-align: center;
 	padding: 15px;
 	margin: 20px 10px;
-}
-
-.profile-orders th{
-	text-align:center;
 }

@@ -12,16 +12,16 @@
 
 <script src="js/profile.js"></script>
 
-<div class="card-group">
-	<div class="card profile-main">
+<div class="row d-flex justify-content-center">
+	<div class="card profile-main col-xl-3 col-md-10">
 		<h2 class="text-center">Profile</h2>
 		<c:if test="${not empty out_msg}">
 			<c:choose>
 				<c:when test="${out_msg == 'Profile Updated Successfully!' }">
-					<div class="alert alert-success" >${out_msg}</div>
+					<div class="alert alert-success text-center" >${out_msg}</div>
 				</c:when>
 				<c:otherwise>
-					<div class="alert alert-danger" >${out_msg}</div>
+					<div class="alert alert-danger text-center" >${out_msg}</div>
 				</c:otherwise>
 			</c:choose>
 		</c:if>
@@ -85,9 +85,9 @@
 	</div>
 	<c:choose>
 		<c:when test="${not empty ordersList}">
-			<div class="card profile-orders text-center">
+			<div class="card profile-orders col-xl-8 col-md-10">
 				<h2>Your Orders</h2>
-				<table class="table text-left">
+				<table class="table">
 				<tr>
 					<th>Order ID</th><th>Product ID</th><th>Quantity</th><th>Delivery Date</th><th>Order Status</th><th></th>
 				</tr>
@@ -100,7 +100,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-		<div class="card profile-main text-center">
+		<div class="card profile-main text-center col-xl-9 col-md-10">
 			<h2 class="font-italic">You have no orders!</h2>
 		</div>
 		</c:otherwise>
