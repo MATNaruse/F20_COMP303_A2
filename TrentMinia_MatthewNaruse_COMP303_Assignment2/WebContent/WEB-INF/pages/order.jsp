@@ -30,7 +30,13 @@
 				<h5 class="card-title">${prod.getModelName()}</h5>
 				<h6 class="card-subtitle">${prod.getBrandName()}</h6>
 				<p class="text">$${prod.getPrice() } per unit.</p>
-				<button class="btn btn-primary">Add to Cart</button>		
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Quantity</span>
+					</div>
+					<input class="form-control" type="number"/>
+				</div>
+				<button class="btn btn-primary" value="">Add to Cart</button>		
 			</div>
 		</c:forEach>
 	</div>
