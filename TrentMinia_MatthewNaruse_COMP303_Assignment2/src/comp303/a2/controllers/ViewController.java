@@ -17,10 +17,11 @@ public class ViewController {
 
 	/* TEMPORARY CONTROLLER CLASS FOR HYPERLINKS */
 	
-	@GetMapping("/order")
-	public ModelAndView order() {
-		return new ModelAndView("order");
-	}
+	// Handled in ProductController
+//	@GetMapping("/order")
+//	public ModelAndView order() {
+//		return new ModelAndView("order");
+//	}
 	
 	@GetMapping("/checkout")
 	public ModelAndView checkout() {

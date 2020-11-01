@@ -30,3 +30,11 @@ body {
 .btn{
 	margin:10px;
 }
+
+#phoneCard{
+	text-align:center;
+}
+
+#phoneCard > img{
+	width:200px;
+}
