@@ -19,6 +19,7 @@ Insert into Product (brandName, modelName, price) values
 ("LG", "LG K41s", 250.00),
 ("LG", "LG K31s", 160.00);
 
+
 -- Dummy Orders --
 Insert into Orders (custId, productId, quantity, deliveryDate, orderStatus) values
 (1, 1, 2, "2020-10-31", "On The Way"),
@@ -28,3 +29,4 @@ Insert into Orders (custId, productId, quantity, deliveryDate, orderStatus) valu
 (1, 7, 3, "2020-12-25", "On The Way"),
 (1, 3, 1, "2021-01-10", "On The Way"),
 (1, 2, 1, "2021-01-17", "On The Way");
+
