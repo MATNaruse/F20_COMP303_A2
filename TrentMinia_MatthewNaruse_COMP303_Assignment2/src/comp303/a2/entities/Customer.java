@@ -98,12 +98,7 @@ public class Customer implements Serializable {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-   
-	/* ADD METHODS HERE
-	 * - getFullName?
-	 * - getFullAddress?
-	 * */ 
-	
+   	
 	public String getFullName() {
 		return this.firstname + " " + this.lastname;
 	}
