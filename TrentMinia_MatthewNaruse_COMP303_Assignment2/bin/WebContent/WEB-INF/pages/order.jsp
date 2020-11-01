@@ -27,7 +27,7 @@
 				<th>Product</th><th>Quantity</th><th>Price</th><th></th>
 			</tr>
 			<!--
-			<c:forEach var="item" items="${cart}">
+			<c:forEach var="order" items="${ordersList}">
 			<tr>
 				<td>${productname}</td><td>${quantity}</td><td>${price}</td><td><span class="btn btn-danger">Remove</span></td>
 			</tr>
@@ -69,14 +69,10 @@
 			    <li class="list-group-item">Model: iPhone 12 (D53GAP)</li>
 			    <li class="list-group-item">Price: $1399.99</li>
 			  </ul>
-			  <div class="card-body">			  	
-			  <form action="order" method="post">
+			  <div class="card-body">
 			  	<label for="quantity">Quantity: </label>
-			  	<input type="number" name="quantity" class="form-control" size="1" min="1" value="1">
-			  	<jsp:param name="productName" value="Apple iPhone 12"/>
-			  	<jsp:param name="initialPrice" value="1399.99"/>
+			  	<input type="number" id="quantity" class="form-control" size="1" value="0">
 			    <button type="button" class="btn btn-primary">Add to Order</button>
-			  </form>
 			  </div>
 			</div>
 		</div>
