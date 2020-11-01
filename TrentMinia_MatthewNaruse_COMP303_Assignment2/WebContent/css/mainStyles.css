@@ -31,6 +31,19 @@ body {
 	margin:10px;
 }
 
+.input-group{
+	text-align:center;
+	width:200px;
+}
+
+#phoneCard{
+	text-align:center;
+}
+
+#phoneCard > img{
+	width:200px;
+}
+
 .profile-main{
 	padding: 15px;
 	margin: 20px 10px;

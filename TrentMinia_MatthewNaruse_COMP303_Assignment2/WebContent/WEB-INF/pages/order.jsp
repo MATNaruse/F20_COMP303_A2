@@ -10,12 +10,37 @@
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 
-<h1>Order</h1>
+
 
 <!-- Shopping Cart List -->
 
 <div class="container">
 	<div class="card">
+		<h1 class="text-center">Order</h1>
+		<h4 class="card-title">Shopping Cart</h4>
+	</div>
+</div>
+
+<!-- Product Items -->
+<div class="container">
+	<div class="card-columns">
+		<c:forEach var="prod" items="${products}">
+			<div id="phoneCard" class="card">
+				<img class="card-img-top" src="css/phonePlaceholder.png" alt="phone placeholder image">
+				<h5 class="card-title">${prod.getModelName()}</h5>
+				<h6 class="card-subtitle">${prod.getBrandName()}</h6>
+				<p class="text">$${prod.getPrice() } per unit.</p>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Quantity</span>
+					</div>
+					<input class="form-control" type="number"/>
+				</div>
+				<button class="btn btn-primary" value="">Add to Cart</button>		
+			</div>
+		</c:forEach>
+	</div>
+<!-- 	<div class="card">
 	  <div class="card-body">
 	    <h4 class="card-title">Items in Cart</h4>
 	    <p class="card-text">
@@ -26,13 +51,13 @@
 			<tr>
 				<th>Product</th><th>Quantity</th><th>Price</th><th></th>
 			</tr>
-			<!--
+			
 			<c:forEach var="order" items="${ordersList}">
 			<tr>
 				<td>${productname}</td><td>${quantity}</td><td>${price}</td><td><span class="btn btn-danger">Remove</span></td>
 			</tr>
 			</c:forEach>
-			  -->
+			 
 		</thead>
 		<tbody>
 			<tr>
@@ -51,7 +76,7 @@
 <div class="container">
 	<div class="row">
 
-		<!-- Apple iPhone 12  -->
+		Apple iPhone 12 
 		
 		<div class="col">
 			<div class="card" style="width: 18rem;">
@@ -77,7 +102,7 @@
 			</div>
 		</div>
 		
-		<!-- Samsung Galaxy S20 -->
+		Samsung Galaxy S20
 		
 		<div class="col">
 			<div class="card" style="width: 18rem;">
@@ -104,7 +129,7 @@
 			</div>
 		</div>
 		
-		<!-- Samsung Galaxy A71 -->
+		Samsung Galaxy A71
 		
 		<div class="col">
 			<div class="card" style="width: 18rem;">
@@ -129,7 +154,7 @@
 			</div>
 		</div>
 		
-		<!-- LG G7-One -->
+		LG G7-One
 		
 		<div class="col">
 			<div class="card" style="width: 18rem;">
@@ -156,7 +181,7 @@
 			</div>
 		</div>
 		
-		<!-- Apple iPhone 11 -->
+		Apple iPhone 11
 		
 		<div class="col">
 			<div class="card" style="width: 18rem;">
@@ -182,7 +207,7 @@
 		</div>
 	
 	</div>
-
+ -->
 </div>
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
