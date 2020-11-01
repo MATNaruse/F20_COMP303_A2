@@ -17,7 +17,8 @@ CREATE TABLE Product(
 	productId SMALLINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     brandName varchar(30) NOT NULL,
     modelName varchar(30) NOT NULL,
-    price double NOT NULL
+    price double NOT NULL,
+    imgSrc varchar(50)
 );
 
 -- Changed name from "Order" to "Orders" due to keyword conflict

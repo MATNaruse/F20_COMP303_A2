@@ -1,11 +1,3 @@
-/*
-	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
-	301 041 132 : Trent Minia
-	300 549 638 : Matthew Naruse
-*/
-
 package comp303.a2.entities;
 
 import java.io.Serializable;
@@ -20,22 +12,23 @@ import javax.persistence.*;
 
 public class Product implements Serializable {
 
-	
-	private int productId;
+	   
+	@Id
+	private String productId;
 	private String brandName;
 	private String modelName;
 	private double price;
+	private String imgSrc;
 	private static final long serialVersionUID = 1L;
 
 	public Product() {
 		super();
 	}   
-	@Id    
-	public int getProductId() {
+	public String getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}   
 	public String getBrandName() {
@@ -58,6 +51,14 @@ public class Product implements Serializable {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}   
+	public String getImgSrc() {
+		if(this.imgSrc == null) return "css/phonePlaceholder.png";
+		return this.imgSrc;
+	}
+
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
 	}
    
 }
