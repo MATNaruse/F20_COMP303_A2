@@ -10,12 +10,8 @@
 	<persistence-unit name="TrentMinia_MatthewNaruse_COMP303_Assignment2">
 		<class>comp303.a2.entities.Customer</class>
 		<class>comp303.a2.entities.Order</class>
-<<<<<<< HEAD
-		 
-=======
 		<class>comp303.a2.entities.Product</class>
 		
->>>>>>> master
 		<properties>
 			<!-- WILL NEED TO BE MODIFIED MANUALLY UNTIL A MORE CONVENIENT WAY IS FOUND -->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

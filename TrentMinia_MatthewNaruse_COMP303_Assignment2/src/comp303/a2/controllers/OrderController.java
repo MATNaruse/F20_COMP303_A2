@@ -23,33 +23,52 @@ import org.springframework.web.servlet.ModelAndView;
 
 import comp303.a2.entities.Customer;
 import comp303.a2.entities.Order;
+import comp303.a2.entities.Product;
 import comp303.a2.models.CartItem;
 
 @Controller
 public class OrderController {
 	private static HttpSession session;
-	private static List<CartItem> cart = new ArrayList<CartItem>();
 	
-	@RequestMapping(value="/checkout", method=RequestMethod.POST)
-	public ModelAndView addToCart(HttpServletRequest request, HttpServletResponse response) {
-		String productName = request.getParameter("productName");
-		int quantity = Integer.parseInt(request.getParameter("quantity"));
-		double initialPrice = Double.parseDouble(request.getParameter("initialPrice"));
-		
-		//Final price is dictated by quantity
-		double price = quantity * initialPrice;
-		
-		// Instantiate objects
-		ModelAndView mav = new ModelAndView();
-		CartItem item = new CartItem();
-		item.setProductName(productName);
-		item.setQuantity(quantity);
-		item.setPrice(price);
-		
-		cart.add(item);
-		
-		mav.addObject(cart);
-		
-		return mav;
+	private static EntityManagerFactory factory;
+	private static EntityManager eMngr;
+	
+	private static List<Product> cart = new ArrayList<Product>();
+	private static List<String> cartItems = new ArrayList<String>();
+	
+	private void initEMF_EM() {
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
 	}
+	
+	@RequestMapping(value="/addToCart", method=RequestMethod.POST)
+	public ModelAndView addItem(@ModelAttribute("product") Product prod, HttpServletRequest request, HttpServletResponse response) {
+		this.initEMF_EM();
+		
+		// Get product id and quantity of selected product
+		int productId = Integer.parseInt(request.getParameter("product"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		
+		// Run query to get products
+		try {
+			eMngr.getTransaction().begin();
+			Query q_getByProductId = eMngr.createNamedQuery(
+					"Select e from Product where e.productId like :eProductId")
+					.setParameter("eProductId", prod.getProductId());
+			Product queryProduct = (Product) q_getByProductId.getSingleResult();
+			eMngr.close();
+			
+			// Price depends on quantity
+			double price = quantity * queryProduct.getPrice();
+			
+			
+		} catch (Exception ex) {
+			System.out.print("CustomerController:login: " + ex.getMessage());
+			//return new ModelAndView("order", "out_msg", "Unexpected Error: " + ex.getMessage());
+		}
+		
+		return new ModelAndView();
+	}
+	
+	// private list display cart method goes here
 }
