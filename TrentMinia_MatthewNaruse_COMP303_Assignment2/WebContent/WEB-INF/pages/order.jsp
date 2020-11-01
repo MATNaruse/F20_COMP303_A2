@@ -26,7 +26,7 @@
 	<div class="card-columns">
 		<c:forEach var="prod" items="${products}">
 			<div id="phoneCard" class="card">
-				<img class="card-img-top" src="${prod.getImgSrc()}" alt="phone placeholder image">
+				<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
 				<h5 class="card-title">${prod.modelName}</h5>
 				<h6 class="card-subtitle">${prod.brandName}</h6>
 				<p class="text">$${prod.price} per unit.</p>
