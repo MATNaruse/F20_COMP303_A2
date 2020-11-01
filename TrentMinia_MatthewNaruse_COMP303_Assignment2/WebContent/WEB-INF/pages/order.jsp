@@ -26,17 +26,17 @@
 	<div class="card-columns">
 		<c:forEach var="prod" items="${products}">
 			<div id="phoneCard" class="card">
-				<img class="card-img-top" src="css/phonePlaceholder.png" alt="phone placeholder image">
-				<h5 class="card-title">${prod.getModelName()}</h5>
-				<h6 class="card-subtitle">${prod.getBrandName()}</h6>
-				<p class="text">$${prod.getPrice() } per unit.</p>
+				<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
+				<h5 class="card-title">${prod.modelName}</h5>
+				<h6 class="card-subtitle">${prod.brandName}</h6>
+				<p class="text">$${prod.price} per unit.</p>
 				<div class="input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Quantity</span>
 					</div>
 					<input class="form-control" type="number"/>
 				</div>
-				<button class="btn btn-primary" value="">Add to Cart</button>		
+				<button class="btn btn-primary" id="">Add to Cart</button>		
 			</div>
 		</c:forEach>
 	</div>
@@ -77,6 +77,7 @@
 	  </div>
 	</div>
 </div>
+<<<<<<< HEAD
 
 <div class="container">
 	<div class="row">
@@ -218,5 +219,8 @@
 	</div>
  -->
 </div>
+=======
+-->
+>>>>>>> master
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />

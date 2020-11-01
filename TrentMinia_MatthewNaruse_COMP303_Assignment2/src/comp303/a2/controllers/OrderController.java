@@ -30,8 +30,8 @@ public class OrderController {
 	private static HttpSession session;
 	private static List<CartItem> cart = new ArrayList<CartItem>();
 	
-	@RequestMapping(value="/order", method=RequestMethod.POST)
-	public ModelAndView addItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/checkout", method=RequestMethod.POST)
+	public ModelAndView addToCart(HttpServletRequest request, HttpServletResponse response) {
 		String productName = request.getParameter("productName");
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		double initialPrice = Double.parseDouble(request.getParameter("initialPrice"));
