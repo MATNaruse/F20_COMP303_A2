@@ -26,7 +26,6 @@
 				<div class="alert alert-danger" >${out_msg}</div>
 			</c:otherwise>
 		</c:choose>
-		
 	</c:if>
 	
 	<form:label for="userName" path="userName">User Name</form:label> 

@@ -36,6 +36,11 @@ public class CustomerController {
 	private static EntityManager eMngr;
 	private static HttpSession session;
 	
+	private void initEMF_EM() {
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+	}
+	
 	/**
 	 * [GET] Mapping for an Empty Login Page
 	 * @return Login Page, with empty Customer Entity
@@ -61,9 +66,9 @@ public class CustomerController {
 		if (result.hasErrors()) return null;
 		
 		// Instantiate New EntityManagerFactory and EntityManager
-		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-		eMngr = factory.createEntityManager();
-		
+//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+//		eMngr = factory.createEntityManager();
+		this.initEMF_EM();
 		
 		try {
 			// Find the Customer from Table using Username
@@ -76,7 +81,9 @@ public class CustomerController {
 			if(cust.getPassword().equals(loginCustomer.getPassword())){
 				HttpSession session = request.getSession();
 				session.setAttribute("currentCustomer", loginCustomer);
-				return new ModelAndView("profile", "cust", loginCustomer);
+				ModelAndView profileMV = new ModelAndView("profile", "cust", loginCustomer);
+				profileMV.addObject("ordersList", this.displayOrders(loginCustomer.getCustId()));
+				return profileMV;
 			}
 			
 			// If Passwords DON'T Match 
@@ -142,8 +149,9 @@ public class CustomerController {
 		model.addAttribute("customer", cust); 
 		
 		// Instantiate New EntityManagerFactory and EntityManager
-		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-		eMngr = factory.createEntityManager();
+//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+//		eMngr = factory.createEntityManager();
+		this.initEMF_EM();
 		session = request.getSession();
 		
 		
@@ -198,7 +206,7 @@ public class CustomerController {
 			
 			Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
 			ModelAndView currCustMV = new ModelAndView("profile", "cust", currCustOBJ);
-			
+
 			// Get Current Customer's Orders, if any
 			List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
 			if (ordersList != null) {
@@ -217,6 +225,38 @@ public class CustomerController {
 		}
 	}
 	
+	
+	@RequestMapping(value="/save-profile", method=RequestMethod.POST)
+	public ModelAndView saveEditedProfile(@Valid @ModelAttribute("customer") Customer cust, BindingResult result, ModelMap model, HttpServletRequest request) {
+		
+		this.initEMF_EM();
+		session=request.getSession();
+		
+		int custId = (int) ((Customer) session.getAttribute("currentCustomer")).getCustId();
+		
+		eMngr.getTransaction().begin();
+		Customer currCustOBJ = eMngr.find(Customer.class, custId);
+		
+		currCustOBJ.setUserName(request.getParameter("userName"));
+		currCustOBJ.setPassword(request.getParameter("password"));
+		currCustOBJ.setFirstname(request.getParameter("firstname"));
+		currCustOBJ.setLastname(request.getParameter("lastname"));
+		currCustOBJ.setAddress(request.getParameter("address"));
+		currCustOBJ.setCity(request.getParameter("city"));
+		currCustOBJ.setCountry(request.getParameter("country"));
+		currCustOBJ.setPostalCode(request.getParameter("postalCode"));
+
+		eMngr.persist(currCustOBJ);
+		eMngr.getTransaction().commit();
+		eMngr.close();
+		
+		ModelAndView updatedProfileMV = new ModelAndView("profile", "cust", currCustOBJ);
+		updatedProfileMV.addObject("out_msg", "Profile Updated Successfully!");
+		List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
+		updatedProfileMV.addObject("ordersList", ordersList);
+		
+		return updatedProfileMV;
+	}
 	/**
 	 * Get a list of Orders, by Customer ID
 	 * @param custId Customer's ID
@@ -224,8 +264,9 @@ public class CustomerController {
 	 */
 	private List<Order> displayOrders(int custId) {
 		List<Order> ordersList = null;
-		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-		eMngr = factory.createEntityManager();
+//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+//		eMngr = factory.createEntityManager();
+		this.initEMF_EM();
 		
 		try {		
 			eMngr.getTransaction().begin();
