@@ -39,7 +39,7 @@
 			</tbody>
 		</table>
 		</form>
-	    <a href="#!" class="btn btn-primary">Checkout</a>
+	    <a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
 	</div>
 </div>
 

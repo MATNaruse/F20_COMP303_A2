@@ -29,6 +29,7 @@ CREATE TABLE Orders(
     quantity INT NOT NULL,
     deliveryDate DATE NOT NULL,
     orderStatus varchar(30),
+	creationDate DATE NOT NULL,
     primary key (orderId, custId, productId, deliveryDate),
 	foreign key (custId) REFERENCES Customer(custId) ON DELETE CASCADE,
     foreign key (productId) REFERENCES Product(productId) ON DELETE CASCADE

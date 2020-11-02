@@ -115,7 +115,8 @@ public class CustomerController {
 		session = request.getSession();
 		
 		// If we have a logged in customer, remove them from session
-		if(session.getAttribute("currentCustomer") != null) session.setAttribute("currentCustomer", null);
+		if(session.getAttribute("currentCustomer") != null) session.removeAttribute("currentCustomer");
+		if(session.getAttribute("cart") != null) session.removeAttribute("cart");
 		ModelAndView loggedOut = this.preplogin();
 		loggedOut.addObject("out_msg", "You have successfully logged out!");
 		return loggedOut;

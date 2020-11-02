@@ -21,11 +21,11 @@ Insert into Product (brandName, modelName, price) values
 
 
 -- Dummy Orders --
-Insert into Orders (custId, productId, quantity, deliveryDate, orderStatus) values
-(1, 1, 2, "2020-10-31", "On The Way"),
-(1, 3, 1, "2020-11-01", "On The Way"),
-(1, 2, 4, "2020-11-28", "On The Way"),
-(1, 5, 2, "2020-11-30", "On The Way"),
-(1, 7, 3, "2020-12-25", "On The Way"),
-(1, 3, 1, "2021-01-10", "On The Way"),
-(1, 2, 1, "2021-01-17", "On The Way");
+Insert into Orders (custId, productId, quantity, deliveryDate, creationDate, orderStatus) values
+(1, 1, 2, "2020-10-31", "2020-9-25", "On The Way"),
+(1, 3, 1, "2020-11-01", "2020-9-25","On The Way"),
+(1, 2, 4, "2020-11-28", "2020-9-25","On The Way"),
+(1, 5, 2, "2020-11-30", "2020-9-25","On The Way"),
+(1, 7, 3, "2020-12-25", "2020-9-25","On The Way"),
+(1, 3, 1, "2021-01-10", "2020-9-25", "On The Way"),
+(1, 2, 1, "2021-01-17", "2020-9-25", "On The Way");

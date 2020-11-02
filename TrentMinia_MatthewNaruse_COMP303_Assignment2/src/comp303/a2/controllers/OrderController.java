@@ -72,20 +72,7 @@ public class OrderController {
 			eMngr.close();
 			
 			// Get Existing Cart from Session
-			session = request.getSession();
-			
-			cart = (Map<String, CartItem>) session.getAttribute("cart");
-			
-			if(cart == null) {
-				cart = new HashMap<String, CartItem>();
-				session.setAttribute("cart", cart);
-			}
-			
-			if(cart.containsKey(qProdName)) cart.get(qProdName).AddQuantity(quantity);
-			else cart.put(qProdName, new CartItem(qProdName, qProdPrice, quantity));
-			
-			System.out.println(cart);
-			session.setAttribute("cart", cart);
+			this.addCartItemToCart(request, qProdName, qProdPrice, quantity);
 			
 			updatedCartMV.addObject("cart", cart);
 
@@ -99,7 +86,6 @@ public class OrderController {
 	@RequestMapping(value="/remFromCart", method=RequestMethod.POST)
 	public ModelAndView remFromCart(HttpServletRequest request) {
 		ModelAndView updatedCart = ProductController.displayPhones();
-		
 		session = request.getSession();
 		cart = (Map<String, CartItem>) session.getAttribute("cart");
 		cart.remove(request.getParameter("removeItem"));
@@ -108,5 +94,32 @@ public class OrderController {
 		updatedCart.addObject("cart", cart);
 		return updatedCart;
 		
+	}
+	
+	@PostMapping("/confirmPayment")
+	public ModelAndView confirmPayment(HttpServletRequest request) {
+//		ModelAndView confirmationMV = new ModelAndView("confirm-order");
+		ModelAndView confirmationMV = new ModelAndView("checkout");
+		System.out.println(request.getParameter("deliveryDate"));
+		
+		confirmationMV.addObject("cart", cart);
+		
+		return confirmationMV;
+	}
+	
+	private void addCartItemToCart(HttpServletRequest request, String qProdName, double qProdPrice, int quantity) {
+		session = request.getSession();
+		cart = (Map<String, CartItem>) session.getAttribute("cart");
+		
+		if(cart == null) {
+			cart = new HashMap<String, CartItem>();
+			session.setAttribute("cart", cart);
+		}
+		
+		if(cart.containsKey(qProdName)) cart.get(qProdName).AddQuantity(quantity);
+		else cart.put(qProdName, new CartItem(qProdName, qProdPrice, quantity));
+		
+		System.out.println(cart);
+		session.setAttribute("cart", cart);
 	}
 }
