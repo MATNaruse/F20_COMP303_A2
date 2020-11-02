@@ -39,6 +39,9 @@ public class ProductController {
 		
 		List<Product> productList = null;
 		
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+		
 		try {
 			eMngr.getTransaction().begin();
 			Query q_getAllProducts = eMngr.createQuery("Select e from Product e");

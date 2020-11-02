@@ -19,21 +19,26 @@
 	<div class="card">
 		<h1 class="text-center">Order</h1>
 		<h4 class="card-title">Shopping Cart</h4>
-		<table class="table">
-		<thead>
-			<tr>
-				<th>Product</th><th>Quantity</th><th>Price</th><th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Apple iPhone 12</td><td>1</td><td>$1399.99</td><td><span class="btn btn-danger">Remove</span></td>
-			</tr>
-			<tr>
-				<td>Samsung Galaxy A71</td><td>1</td><td>$539.99</td><td><span class="btn btn-danger">Remove</span></td>
-			</tr>
-		</tbody>
+		<form id="remForm" method="POST"
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/remFromCart">
+			<table class="table">
+			<thead>
+				<tr>
+					<th>Product</th><th>Quantity</th><th>Price</th><th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="cartItem" items="${cart}">
+					<tr>
+						<td>${cartItem.key}</td>
+						<td>${cartItem.value.quantity}</td>
+						<td>${cartItem.value.totalPrice}</td>
+						<td><button type="submit" class="btn btn-primary" name="removeItem" value="${cartItem.key}">Remove</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
+		</form>
 	    <a href="#!" class="btn btn-primary">Checkout</a>
 	</div>
 </div>
