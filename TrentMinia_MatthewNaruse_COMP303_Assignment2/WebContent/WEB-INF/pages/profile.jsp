@@ -46,9 +46,7 @@
 			<form:form method="POST" modelAttribute="cust" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/save-profile">
 				<table class="table text-left">
 					<tr>
-						<td><form:label for="userName" path="userName">User Name</form:label></td>
-						<td><form:input class="form-control" id="userName" path="userName" placeholder="Username" value="${cust.userName}"/></td>
-					</tr>
+						<td>Username</td><td>${cust.userName}</td>
 					<tr>
 						<td><form:label for="password" path="password">Password</form:label></td>
 						<td><form:password class="form-control" id="password" path="password" placeholder="Password" value="${cust.password}"/></td>

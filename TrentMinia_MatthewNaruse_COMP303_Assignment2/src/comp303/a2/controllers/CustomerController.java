@@ -237,7 +237,7 @@ public class CustomerController {
 		eMngr.getTransaction().begin();
 		Customer currCustOBJ = eMngr.find(Customer.class, custId);
 		
-		currCustOBJ.setUserName(request.getParameter("userName"));
+//		currCustOBJ.setUserName(request.getParameter("userName"));
 		currCustOBJ.setPassword(request.getParameter("password"));
 		currCustOBJ.setFirstname(request.getParameter("firstname"));
 		currCustOBJ.setLastname(request.getParameter("lastname"));
