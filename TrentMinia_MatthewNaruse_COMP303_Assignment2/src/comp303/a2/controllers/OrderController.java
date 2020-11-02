@@ -73,10 +73,7 @@ public class OrderController {
 		}
 		
 		//return new ModelAndView("order");
-		ProductController pc = new ProductController();
-		
-		ModelAndView rebuildOrderMV = pc.displayPhones();
-		return rebuildOrderMV;
+		return ProductController.displayPhones();
 	}
 	
 	// private list display cart method goes here

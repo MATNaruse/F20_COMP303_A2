@@ -29,12 +29,15 @@ public class ProductController {
 	
 	//TODO: Extract into stand-alone method to call from OrderController
 	@RequestMapping(value="/order", method=RequestMethod.GET)
-	public ModelAndView displayPhones() {
+	public ModelAndView mavDisplayPhones() {
+		this.init_EMF_EM();
+		return displayPhones();
+	}
+	
+	public static ModelAndView displayPhones() {
 		ModelAndView productListMV = new ModelAndView("order");
 		
 		List<Product> productList = null;
-		
-		this.init_EMF_EM();
 		
 		try {
 			eMngr.getTransaction().begin();
