@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import comp303.a2.controllers.ProductController;
 import comp303.a2.entities.Customer;
 import comp303.a2.entities.Order;
 import comp303.a2.entities.Product;
@@ -41,33 +42,41 @@ public class OrderController {
 		eMngr = factory.createEntityManager();
 	}
 	
+	// Modify as "/order" RequestMethod.POST to update Cart
 	@RequestMapping(value="/addToCart", method=RequestMethod.POST)
 	public ModelAndView addItem(@ModelAttribute("product") Product prod, HttpServletRequest request, HttpServletResponse response) {
 		this.initEMF_EM();
 		
 		// Get product id and quantity of selected product
 		int productId = Integer.parseInt(request.getParameter("product"));
+		System.out.println(productId);
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		System.out.println(quantity);
 		
 		// Run query to get products
 		try {
 			eMngr.getTransaction().begin();
-			Query q_getByProductId = eMngr.createNamedQuery(
-					"Select e from Product where e.productId like :eProductId")
-					.setParameter("eProductId", prod.getProductId());
+			Query q_getByProductId = eMngr.createQuery("Select e from Product e where e.productId = :eProductId").setParameter("eProductId", request.getParameter("product"));
 			Product queryProduct = (Product) q_getByProductId.getSingleResult();
+			
+			String tempName = queryProduct.getModelName();
 			eMngr.close();
 			
 			// Price depends on quantity
 			double price = quantity * queryProduct.getPrice();
+			System.out.println(String.format("%s - Price: %f", tempName, price));
 			
 			
 		} catch (Exception ex) {
-			System.out.print("CustomerController:login: " + ex.getMessage());
+			System.out.println("OrderController:addItem: " + ex.getMessage());
 			//return new ModelAndView("order", "out_msg", "Unexpected Error: " + ex.getMessage());
 		}
 		
-		return new ModelAndView();
+		//return new ModelAndView("order");
+		ProductController pc = new ProductController();
+		
+		ModelAndView rebuildOrderMV = pc.displayPhones();
+		return rebuildOrderMV;
 	}
 	
 	// private list display cart method goes here

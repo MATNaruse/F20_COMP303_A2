@@ -40,30 +40,32 @@
 
 <!-- Product Items -->
 
-<form:form method="POST"
-		   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/addToCart"
-		   modelAttribute="product">
+
 		   
 <div class="container">
 	<div class="card-columns">
 		<c:forEach var="prod" items="${products}">
-			<div id="phoneCard" class="card">
-				<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
-				<h5 class="card-title">${prod.modelName}</h5>
-				<h6 class="card-subtitle">${prod.brandName}</h6>
-				<p class="text">$${prod.price} per unit.</p>
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Quantity</span>
+			<form:form method="POST"
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/addToCart"
+			   modelAttribute="product">
+				<div id="phoneCard" class="card">
+					<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
+					<h5 class="card-title">${prod.modelName}</h5>
+					<h6 class="card-subtitle">${prod.brandName}</h6>
+					<p class="text">$${prod.price} per unit.</p>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Quantity</span>
+						</div>
+						<input name="quantity" class="form-control" type="number" min="1" value="1"/>
 					</div>
-					<input name="quantity" class="form-control" type="number" min="1" value="1"/>
+					<button name="product" class="btn btn-primary" type="submit" value="${prod.productId}">Add to Cart</button>
 				</div>
-				<button name="product" class="btn btn-primary" type="submit" value="${prod.productId}">Add to Cart</button>
-			</div>
+			</form:form>
 		</c:forEach>
 	</div>
 </div>
 
-</form:form>
+
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />

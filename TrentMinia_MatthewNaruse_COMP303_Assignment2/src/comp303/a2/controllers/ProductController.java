@@ -27,6 +27,7 @@ public class ProductController {
 		eMngr = factory.createEntityManager();
 	}
 	
+	//TODO: Extract into stand-alone method to call from OrderController
 	@RequestMapping(value="/order", method=RequestMethod.GET)
 	public ModelAndView displayPhones() {
 		ModelAndView productListMV = new ModelAndView("order");
@@ -41,9 +42,9 @@ public class ProductController {
 			productList = q_getAllProducts.getResultList();
 //			System.out.println(productList);
 			productListMV.addObject("products", productList);
-			for(Product prod: productList) {
-				System.out.println(prod.getBrandName() + "|" + prod.getModelName() + "|" + prod.getPrice());
-			}
+//			for(Product prod: productList) {
+//				System.out.println(prod.getBrandName() + "|" + prod.getModelName() + "|" + prod.getPrice());
+//			}
 			eMngr.close();
 		}
 		
