@@ -89,8 +89,6 @@
 					<table class="table">
 					<tr>
 						<th>Order ID</th>
-						<th>Product ID</th>
-						<th>Quantity</th>
 						<th>Delivery Date</th>
 						<th>Order Status</th>
 						<th></th>
@@ -98,8 +96,6 @@
 						<c:forEach var="order" items="${ordersList}">
 							<tr>
 								<td>${order.orderId}</td>
-								<td>${order.productId}</td>
-								<td>${order.quantity}</td>
 								<td>${order.deliveryDate}</td>
 								<td>${order.orderStatus}</td>
 								<td><button type="submit" class="btn btn-primary" name="view-orderId" value="${order.orderId}">View</button></td>

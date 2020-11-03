@@ -8,6 +8,7 @@
 
 package comp303.a2.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -238,7 +239,6 @@ public class CustomerController {
 		eMngr.getTransaction().begin();
 		Customer currCustOBJ = eMngr.find(Customer.class, custId);
 		
-//		currCustOBJ.setUserName(request.getParameter("userName"));
 		currCustOBJ.setPassword(request.getParameter("password"));
 		currCustOBJ.setFirstname(request.getParameter("firstname"));
 		currCustOBJ.setLastname(request.getParameter("lastname"));
@@ -254,6 +254,7 @@ public class CustomerController {
 		ModelAndView updatedProfileMV = new ModelAndView("profile", "cust", currCustOBJ);
 		updatedProfileMV.addObject("out_msg", "Profile Updated Successfully!");
 		List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
+
 		updatedProfileMV.addObject("ordersList", ordersList);
 		
 		return updatedProfileMV;
@@ -282,6 +283,21 @@ public class CustomerController {
 			eMngr.close();
 		}
 
+		if (ordersList != null) {
+			List<Order> filteredList = new ArrayList<Order>();
+			Order prevOrd = null;
+			for(Order ord : ordersList) {
+				if(prevOrd == null) {
+					prevOrd = ord;
+					filteredList.add(ord);
+				}
+				else if (prevOrd.getOrderId() != ord.getOrderId()) {
+					filteredList.add(ord);
+					prevOrd = ord;
+				}
+			}
+			return filteredList;
+		}
 		return ordersList;
 
 
