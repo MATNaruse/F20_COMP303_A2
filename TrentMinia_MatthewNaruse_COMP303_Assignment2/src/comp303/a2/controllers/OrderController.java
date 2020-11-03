@@ -102,8 +102,8 @@ public class OrderController {
 	
 	@PostMapping("/confirmPayment")
 	public ModelAndView confirmPayment(HttpServletRequest request) {
-//		ModelAndView confirmationMV = new ModelAndView("confirm-order");
-		ModelAndView confirmationMV = new ModelAndView("checkout");
+		ModelAndView confirmationMV = new ModelAndView("confirm-order");
+//		ModelAndView confirmationMV = new ModelAndView("checkout");
 //		System.out.println(request.getParameter("deliveryDate"));
 		
 		Boolean correct_data = true;
@@ -121,6 +121,7 @@ public class OrderController {
 			Date Now = new Date();
 			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
 			
+			// Create the first order item
 			Order newOrder = new Order();
 			newOrder.setCustId(custId);
 			newOrder.setProductId(finalCart.get(0).getProductId());
@@ -132,13 +133,13 @@ public class OrderController {
 			eMngr.persist(newOrder);
 			eMngr.getTransaction().commit();
 			
-			// THIS DOES NOT GET THE LAST INDEX;
-			Query q_getLastIndex = eMngr.createQuery("Select max(e.orderId) from Orders e where e.custId = :eCustId").setParameter("eCustId", custId);
-			int newOrderId = (Integer) q_getLastIndex.getSingleResult();
-			
-			System.out.println("LAST INDEX = " + newOrderId);
 			
 			if(finalCart.size() > 1) {
+				// If there are other items considered in this order, then get the last orderId to use
+				Query q_getLastIndex = eMngr.createQuery("Select max(e.orderId) from Orders e where e.custId = :eCustId").setParameter("eCustId", custId);
+				int newOrderId = (Integer) q_getLastIndex.getSingleResult();
+				System.out.println("LAST INDEX = " + newOrderId);
+				
 				for(CartItem cItem: finalCart) {
 					if(finalCart.indexOf(cItem) != 0) {
 						eMngr.getTransaction().begin();
@@ -153,13 +154,10 @@ public class OrderController {
 						eMngr.persist(nextOrder);
 						eMngr.getTransaction().commit();
 					}
-
 				}
 			}
 			eMngr.close();
-			return new ModelAndView("confirm-order");
-
-
+//			return new ModelAndView("confirm-order");
 		}
 		
 		this.refreshCart(request);

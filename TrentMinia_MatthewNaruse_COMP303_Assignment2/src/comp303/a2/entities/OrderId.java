@@ -1,6 +1,8 @@
 package comp303.a2.entities;
 
-public class OrderId {
+import java.io.Serializable;
+
+public class OrderId implements Serializable{
 	private int orderId;
 	private int custId;
 	private int productId;
