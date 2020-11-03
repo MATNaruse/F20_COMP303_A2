@@ -2,6 +2,7 @@ package comp303.a2.models;
 
 public class CartItem {
 	private String productName;
+	private int productId;
 	private int quantity;
 	private double productPrice;
 	private double totalPrice;
@@ -11,6 +12,12 @@ public class CartItem {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -33,8 +40,9 @@ public class CartItem {
 	
 	public CartItem() {}
 	
-	public CartItem(String prodName, double prodPrice, int quant) {
+	public CartItem(String prodName, int prodId, double prodPrice, int quant) {
 		this.productName = prodName;
+		this.productId = prodId;
 		this.productPrice = prodPrice;
 		this.quantity = quant;
 	}

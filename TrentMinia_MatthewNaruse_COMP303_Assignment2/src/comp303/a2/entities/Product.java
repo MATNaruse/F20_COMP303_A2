@@ -14,7 +14,7 @@ public class Product implements Serializable {
 
 	   
 	@Id
-	private String productId;
+	private int productId;
 	private String brandName;
 	private String modelName;
 	private double price;
@@ -24,11 +24,11 @@ public class Product implements Serializable {
 	public Product() {
 		super();
 	}   
-	public String getProductId() {
+	public int getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}   
 	public String getBrandName() {

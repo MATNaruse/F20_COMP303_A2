@@ -1,6 +1,8 @@
 package comp303.a2.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +67,16 @@ public class OrderController {
 		// Run query to get products
 		try {
 			eMngr.getTransaction().begin();
-			Query q_getByProductId = eMngr.createQuery("Select e from Product e where e.productId = :eProductId").setParameter("eProductId", request.getParameter("product"));
+			Query q_getByProductId = eMngr.createQuery("Select e from Product e where e.productId = :eProductId")
+										.setParameter("eProductId", Integer.parseInt(request.getParameter("product")));
 			Product queryProduct = (Product) q_getByProductId.getSingleResult();
 			String qProdName = queryProduct.getModelName();
 			double qProdPrice = queryProduct.getPrice();
+			int qProdId = queryProduct.getProductId();
 			eMngr.close();
 			
 			// Get Existing Cart from Session
-			this.addCartItemToCart(request, qProdName, qProdPrice, quantity);
+			this.addCartItemToCart(request, qProdName, qProdId, qProdPrice, quantity);
 			
 			updatedCartMV.addObject("cart", cart);
 
@@ -100,9 +104,63 @@ public class OrderController {
 	public ModelAndView confirmPayment(HttpServletRequest request) {
 //		ModelAndView confirmationMV = new ModelAndView("confirm-order");
 		ModelAndView confirmationMV = new ModelAndView("checkout");
-		System.out.println(request.getParameter("deliveryDate"));
-		Order ord = new Order();
-		ord.isCancelable();
+//		System.out.println(request.getParameter("deliveryDate"));
+		
+		Boolean correct_data = true;
+		
+		if(correct_data) {
+			this.initEMF_EM();
+			eMngr.getTransaction().begin();
+			session = request.getSession();
+			Customer currCustomer = (Customer) session.getAttribute("currentCustomer");
+			int custId = currCustomer.getCustId();
+			this.refreshCart(request);
+			List<CartItem> finalCart = new ArrayList<CartItem>();
+			finalCart.addAll(cart.values());
+			// Setting up first item in order (if multiple)
+			Date Now = new Date();
+			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+			
+			Order newOrder = new Order();
+			newOrder.setCustId(custId);
+			newOrder.setProductId(finalCart.get(0).getProductId());
+			newOrder.setQuantity(finalCart.get(0).getQuantity());
+			newOrder.setDeliveryDate(request.getParameter("deliveryDate"));
+			newOrder.setCreationDate(sdf_mysql.format(Now));
+			newOrder.setOrderStatus("Processing...");
+			
+			eMngr.persist(newOrder);
+			eMngr.getTransaction().commit();
+			
+			// THIS DOES NOT GET THE LAST INDEX;
+			Query q_getLastIndex = eMngr.createQuery("Select max(e.orderId) from Orders e where e.custId = :eCustId").setParameter("eCustId", custId);
+			int newOrderId = (Integer) q_getLastIndex.getSingleResult();
+			
+			System.out.println("LAST INDEX = " + newOrderId);
+			
+			if(finalCart.size() > 1) {
+				for(CartItem cItem: finalCart) {
+					if(finalCart.indexOf(cItem) != 0) {
+						eMngr.getTransaction().begin();
+						Order nextOrder = new Order();
+						nextOrder.setOrderId(newOrderId);
+						nextOrder.setCustId(custId);
+						nextOrder.setProductId(cItem.getProductId());
+						nextOrder.setQuantity(cItem.getQuantity());
+						nextOrder.setDeliveryDate(request.getParameter("deliveryDate"));
+						nextOrder.setCreationDate(sdf_mysql.format(Now));
+						nextOrder.setOrderStatus("Processing...");
+						eMngr.persist(nextOrder);
+						eMngr.getTransaction().commit();
+					}
+
+				}
+			}
+			eMngr.close();
+			return new ModelAndView("confirm-order");
+
+
+		}
 		
 		this.refreshCart(request);
 		
@@ -110,6 +168,8 @@ public class OrderController {
 		
 		return confirmationMV;
 	}
+	
+	// CART RELATED METHODS
 	
 	/**
 	 * Collects the cart from session, or creates it if it doesn't exist
@@ -131,13 +191,13 @@ public class OrderController {
 	 * @param qProdPrice Price of Individual Product
 	 * @param quantity Quantity of Product
 	 */
-	private void addCartItemToCart(HttpServletRequest request, String qProdName, double qProdPrice, int quantity) {
+	private void addCartItemToCart(HttpServletRequest request, String qProdName, int qProdId, double qProdPrice, int quantity) {
 		this.refreshCart(request);
 		
 		if(cart.containsKey(qProdName)) cart.get(qProdName).AddQuantity(quantity);
-		else cart.put(qProdName, new CartItem(qProdName, qProdPrice, quantity));
+		else cart.put(qProdName, new CartItem(qProdName, qProdId, qProdPrice, quantity));
 		
-		System.out.println(cart);
+//		System.out.println(cart);
 		session.setAttribute("cart", cart);
 	}
 }
