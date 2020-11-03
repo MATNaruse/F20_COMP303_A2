@@ -176,9 +176,11 @@ public class OrderController {
 	
 	@PostMapping("/view-order")
 	public ModelAndView displayOrder(HttpServletRequest request) {
+		// Set up ModelAndView to Return
 		ModelAndView viewOrderMV = new ModelAndView("view-order");
-		int orderId = Integer.parseInt(request.getParameter("view-orderId"));
 		
+		// Collect Data
+		int orderId = Integer.parseInt(request.getParameter("view-orderId"));
 		this.initEMF_EM();
 		eMngr.getTransaction().begin();
 		session = request.getSession();
@@ -187,17 +189,27 @@ public class OrderController {
 		
 		List<Order> orderItems = this.organizeOrder(orderId, custId);
 		List<CartItem> cartItems = new ArrayList<CartItem>();
+		double orderTotal = 0.0;
 		
+		Order orderInfo = orderItems.get(0);
 		
 		for(Order order: orderItems) {
 			int prodId = order.getProductId();
 			Query q_getProdInfo = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", prodId);
 			Product qProd = (Product) q_getProdInfo.getSingleResult();
-			cartItems.add(new CartItem(qProd.getModelName(), prodId, qProd.getPrice(), order.getQuantity()));
+			
+			CartItem cItem = new CartItem(qProd.getModelName(), prodId, qProd.getPrice(), order.getQuantity());
+			orderTotal += cItem.getTotalPrice();
+			cartItems.add(cItem);
 		}
 		
 		eMngr.close();
+		
+		// Add Data to ModelAndView
 		viewOrderMV.addObject("orderItems", cartItems);
+		viewOrderMV.addObject("orderTotal", orderTotal);
+		viewOrderMV.addObject("cust", currCustomer);
+		viewOrderMV.addObject("orderInfo", orderInfo);
 		
 		return viewOrderMV;
 	}

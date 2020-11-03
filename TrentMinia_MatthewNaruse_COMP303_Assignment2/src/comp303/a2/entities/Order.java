@@ -90,6 +90,9 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 	}
    
+	public String getPlainCreationDate() {
+		return (String) this.creationDate.subSequence(0, 10);
+	}
 //	public boolean isCancelable() {
 //		// THIS SHOULD BE BETTER BUT I'M CURRENTLY BRAIN DEAD
 //		// Get current date
