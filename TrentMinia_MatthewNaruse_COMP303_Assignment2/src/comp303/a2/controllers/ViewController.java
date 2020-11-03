@@ -45,8 +45,8 @@ public class ViewController {
 //		return new ModelAndView("register");
 //	}
 	
-	@GetMapping("/view-order")
-	public ModelAndView view_order() {
-		return new ModelAndView("view-order");
-	}
+//	@GetMapping("/view-order")
+//	public ModelAndView view_order() {
+//		return new ModelAndView("view-order");
+//	}
 }

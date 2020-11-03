@@ -44,11 +44,8 @@ public class OrderController {
 	
 	private static Map<String, CartItem> cart;// = new HashMap<String, CartItem>();	
 	
-	private void initEMF_EM() {
-		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-		eMngr = factory.createEntityManager();
-	}
-	
+	 // Mapping Methods
+
 	/**
 	 * [POST] Mapping for adding an Item to the Cart
 	 * @param prod Product
@@ -88,7 +85,6 @@ public class OrderController {
 		return updatedCartMV;
 	}
 	
-	
 	@GetMapping("/confirm-order")
 	public ModelAndView confirm_order(HttpServletRequest request) {
 		ModelAndView confirmationMV = new ModelAndView("confirm-order");
@@ -98,7 +94,6 @@ public class OrderController {
 		session.setAttribute("cart", cart);
 		return confirmationMV;
 	}
-	
 	
 	@RequestMapping(value="/remFromCart", method=RequestMethod.POST)
 	public ModelAndView remFromCart(HttpServletRequest request) {
@@ -179,7 +174,57 @@ public class OrderController {
 		return confirmationMV;
 	}
 	
-	// CART RELATED METHODS
+	@PostMapping("/view-order")
+	public ModelAndView displayOrder(HttpServletRequest request) {
+		ModelAndView viewOrderMV = new ModelAndView("view-order");
+		int orderId = Integer.parseInt(request.getParameter("view-orderId"));
+		
+		this.initEMF_EM();
+		eMngr.getTransaction().begin();
+		session = request.getSession();
+		Customer currCustomer = (Customer) session.getAttribute("currentCustomer");
+		int custId = currCustomer.getCustId();
+		
+		List<Order> orderItems = this.organizeOrder(orderId, custId);
+		List<CartItem> cartItems = new ArrayList<CartItem>();
+		
+		
+		for(Order order: orderItems) {
+			int prodId = order.getProductId();
+			Query q_getProdInfo = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", prodId);
+			Product qProd = (Product) q_getProdInfo.getSingleResult();
+			cartItems.add(new CartItem(qProd.getModelName(), prodId, qProd.getPrice(), order.getQuantity()));
+		}
+		
+		eMngr.close();
+		viewOrderMV.addObject("orderItems", cartItems);
+		
+		return viewOrderMV;
+	}
+	
+	
+	// Private Methods
+	
+	/**
+	 * Initializes new EntitiyManagerFactory and EntityManager
+	 */
+	private void initEMF_EM() {
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+	}
+	
+	
+	private List<Order> organizeOrder(int orderId, int custId) {
+//		eMngr.getTransaction().begin();
+		Query q_getOrdersByCompKey = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrderId and e.custId = :eCustId")
+				.setParameter("eOrderId", orderId).setParameter("eCustId", custId);
+		List<Order> orders = q_getOrdersByCompKey.getResultList();
+//		eMngr.close();
+		return orders;
+	}
+	
+	
+	// Cart Related Methods
 	
 	/**
 	 * Collects the cart from session, or creates it if it doesn't exist

@@ -85,22 +85,34 @@
 		<c:when test="${not empty ordersList}">
 			<div class="card profile-orders col-lg-8 col-sm-10">
 				<h2>Your Orders</h2>
-				<table class="table">
-				<tr>
-					<th>Order ID</th><th>Product ID</th><th>Quantity</th><th>Delivery Date</th><th>Order Status</th><th></th>
-				</tr>
-				<c:forEach var="order" items="${ordersList}">
+				<form:form method="post" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/view-order">
+					<table class="table">
 					<tr>
-					<td>${order.orderId}</td><td>${order.productId}</td><td>${order.quantity}</td><td>${order.deliveryDate}</td><td>${order.orderStatus}</td><td><span class="btn btn-primary">View</span></td>
-				</tr>
-				</c:forEach>
-				</table>
+						<th>Order ID</th>
+						<th>Product ID</th>
+						<th>Quantity</th>
+						<th>Delivery Date</th>
+						<th>Order Status</th>
+						<th></th>
+					</tr>
+						<c:forEach var="order" items="${ordersList}">
+							<tr>
+								<td>${order.orderId}</td>
+								<td>${order.productId}</td>
+								<td>${order.quantity}</td>
+								<td>${order.deliveryDate}</td>
+								<td>${order.orderStatus}</td>
+								<td><button type="submit" class="btn btn-primary" name="view-orderId" value="${order.orderId}">View</button></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</form:form>
 			</div>
 		</c:when>
 		<c:otherwise>
-		<div class="card profile-main text-center col-lg-8 col-sm-10">
-			<h2 class="font-italic">You have no orders!</h2>
-		</div>
+			<div class="card profile-main text-center col-lg-8 col-sm-10">
+				<h2 class="font-italic">You have no orders!</h2>
+			</div>
 		</c:otherwise>
 	</c:choose>
 </div>
