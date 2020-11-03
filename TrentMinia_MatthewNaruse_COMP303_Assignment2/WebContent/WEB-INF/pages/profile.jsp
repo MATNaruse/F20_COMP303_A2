@@ -13,7 +13,7 @@
 <script src="js/profile.js"></script>
 
 <div class="row d-flex justify-content-center">
-	<div class="card profile-main col-lg-3 col-m-10">
+	<div class="card profile-main col-lg-3 col-sm-10">
 		<h2 class="text-center">Profile</h2>
 		<c:if test="${not empty out_msg}">
 			<c:choose>

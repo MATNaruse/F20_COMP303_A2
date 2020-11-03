@@ -168,8 +168,10 @@ public class OrderController {
 		}
 		
 		this.refreshCart(request);
+		Map<String, CartItem> displayConfirmOrder = cart;
 		session.setAttribute("cart", null);
 		
+		confirmationMV.addObject("cart", displayConfirmOrder);
 		return confirmationMV;
 	}
 	
