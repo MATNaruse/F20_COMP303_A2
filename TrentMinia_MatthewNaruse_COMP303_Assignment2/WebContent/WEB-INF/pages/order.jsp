@@ -18,26 +18,54 @@
 	<div class="card">
 		<h1 class="text-center">Order</h1>
 		<h4 class="card-title">Shopping Cart</h4>
+		<form id="remForm" method="POST"
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/remFromCart">
+			<table class="table">
+			<thead>
+				<tr>
+					<th>Product</th><th>Quantity</th><th>Price</th><th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="cartItem" items="${cart}">
+					<tr>
+						<td>${cartItem.key}</td>
+						<td>${cartItem.value.quantity}</td>
+						<td>${cartItem.value.totalPrice}</td>
+						<td><button type="submit" class="btn btn-primary" name="removeItem" value="${cartItem.key}">Remove</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</form>
+	    <a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
 	</div>
 </div>
 
 <!-- Product Items -->
+
+
+		   
 <div class="container">
 	<div class="card-columns">
 		<c:forEach var="prod" items="${products}">
-			<div id="phoneCard" class="card">
-				<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
-				<h5 class="card-title">${prod.modelName}</h5>
-				<h6 class="card-subtitle">${prod.brandName}</h6>
-				<p class="text">$${prod.price} per unit.</p>
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Quantity</span>
+			<form:form method="POST"
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/addToCart"
+			   modelAttribute="product">
+				<div id="phoneCard" class="card">
+					<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
+					<h5 class="card-title">${prod.modelName}</h5>
+					<h6 class="card-subtitle">${prod.brandName}</h6>
+					<p class="text">$${prod.price} per unit.</p>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Quantity</span>
+						</div>
+						<input name="quantity" class="form-control" type="number" min="1" value="1"/>
 					</div>
-					<input class="form-control" type="number"/>
+					<button name="product" class="btn btn-primary" type="submit" value="${prod.productId}">Add to Cart</button>
 				</div>
-				<button class="btn btn-primary" id="">Add to Cart</button>		
-			</div>
+			</form:form>
 		</c:forEach>
 	</div>
 <!-- 	<div class="card">
@@ -73,5 +101,7 @@
 	</div>
 </div>
 -->
+
+
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />

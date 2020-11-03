@@ -1,0 +1,15 @@
+use digitel;
+update product set imgSrc = "css/iPhone11_Black_2Up.jpg" where productId = 1;
+update product set imgSrc = "css/iphone-11-pro.jpg" where productId = 2;
+update product set imgSrc = "css/iphone-11-pro_max.jpg" where productId = 3;
+update product set imgSrc = "css/iphone-xr.jpg" where productId = 4;
+update product set imgSrc = "css/google-pixel-5.jpg" where productId = 5;
+update product set imgSrc = "css/google-pixel-4a.jpg" where productId = 6;
+update product set imgSrc = "css/samsung-galaxy-s20_fe.jpg" where productId = 7;
+update product set imgSrc = "css/samsung-galaxy-s20_p.jpg" where productId = 8;
+update product set imgSrc = "css/samsung-galaxy-s20.jpg" where productId = 9;
+update product set imgSrc = "css/samsung-galaxy-s20_ultra.jpg" where productId = 10;
+update product set imgSrc = "css/lg-velvet-5g.jpg" where productId = 11;
+update product set imgSrc = "css/lg-k61.jpg" where productId = 12;
+update product set imgSrc = "css/lg-k41s.jpg" where productId = 13;
+update product set imgSrc = "css/lg-k31s.jpg" where productId = 14;
