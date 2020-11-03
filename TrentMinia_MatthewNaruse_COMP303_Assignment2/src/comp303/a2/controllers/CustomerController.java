@@ -174,10 +174,15 @@ public class CustomerController {
 			// Save new Customer to Table
 			eMngr.persist(cust);
 			eMngr.getTransaction().commit();
+			
+			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
+			Customer regCustomer = (Customer) q_getByUsername.getSingleResult();
+			
 			eMngr.close();
 			
 			// Setting Newly Registered Customer as Logged In
-			session.setAttribute("currentCustomer", cust);
+			session.setAttribute("currentCustomer", regCustomer);
+			session.setAttribute("cart", null);
 			return new ModelAndView("profile", "cust", cust);
 		}
 		

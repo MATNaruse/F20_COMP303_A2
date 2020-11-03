@@ -6,7 +6,7 @@
 	300 549 638 : Matthew Naruse
  -->
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 

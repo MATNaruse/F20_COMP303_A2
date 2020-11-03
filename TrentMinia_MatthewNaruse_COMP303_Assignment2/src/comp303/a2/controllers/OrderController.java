@@ -27,9 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
-
-import comp303.a2.controllers.ProductController;
 import comp303.a2.entities.Customer;
 import comp303.a2.entities.Order;
 import comp303.a2.entities.Product;
@@ -111,20 +108,22 @@ public class OrderController {
 	@PostMapping("/confirmPayment")
 	public ModelAndView confirmPayment(HttpServletRequest request) {
 		ModelAndView confirmationMV = new ModelAndView("confirm-order");
-//		ModelAndView confirmationMV = new ModelAndView("checkout");
-//		System.out.println(request.getParameter("deliveryDate"));
 		
 		Boolean correct_data = true;
 		
 		if(correct_data) {
+			// Initialize EMF and EM
 			this.initEMF_EM();
-			eMngr.getTransaction().begin();
-			session = request.getSession();
-			Customer currCustomer = (Customer) session.getAttribute("currentCustomer");
+			
+			eMngr.getTransaction().begin(); // Start Transaction
+			session = request.getSession(); // Refresh Session
+			Customer currCustomer = (Customer) session.getAttribute("currentCustomer"); // Refresh CurrentCustomer for local use
 			int custId = currCustomer.getCustId();
+			
 			this.refreshCart(request);
 			List<CartItem> finalCart = new ArrayList<CartItem>();
 			finalCart.addAll(cart.values());
+			
 			// Setting up first item in order (if multiple)
 			Date Now = new Date();
 			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
@@ -139,7 +138,7 @@ public class OrderController {
 			newOrder.setOrderStatus("Processing...");
 			
 			eMngr.persist(newOrder);
-			eMngr.getTransaction().commit();
+//			eMngr.getTransaction().commit();
 			
 			
 			if(finalCart.size() > 1) {
@@ -150,7 +149,6 @@ public class OrderController {
 				
 				for(CartItem cItem: finalCart) {
 					if(finalCart.indexOf(cItem) != 0) {
-						eMngr.getTransaction().begin();
 						Order nextOrder = new Order();
 						nextOrder.setOrderId(newOrderId);
 						nextOrder.setCustId(custId);
@@ -160,16 +158,17 @@ public class OrderController {
 						nextOrder.setCreationDate(sdf_mysql.format(Now));
 						nextOrder.setOrderStatus("Processing...");
 						eMngr.persist(nextOrder);
-						eMngr.getTransaction().commit();
+//						eMngr.getTransaction().commit();
 					}
 				}
 			}
+			eMngr.getTransaction().commit();
 			eMngr.close();
 //			return new ModelAndView("confirm-order");
 		}
 		
 		this.refreshCart(request);
-	
+		session.setAttribute("cart", null);
 		
 		return confirmationMV;
 	}
