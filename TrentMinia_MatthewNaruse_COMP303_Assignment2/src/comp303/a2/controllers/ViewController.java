@@ -28,10 +28,10 @@ public class ViewController {
 		return new ModelAndView("checkout");
 	}
 	
-	@GetMapping("/confirm-order")
-	public ModelAndView confirm_order() {
-		return new ModelAndView("confirm-order");
-	}
+//	@GetMapping("/confirm-order")
+//	public ModelAndView confirm_order() {
+//		return new ModelAndView("confirm-order");
+//	}
 	
 	// Handled in CustomerController
 //	@GetMapping("/profile")

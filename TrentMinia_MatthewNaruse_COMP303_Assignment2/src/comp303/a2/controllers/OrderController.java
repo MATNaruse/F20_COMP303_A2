@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,18 @@ public class OrderController {
 		
 		return updatedCartMV;
 	}
+	
+	
+	@GetMapping("/confirm-order")
+	public ModelAndView confirm_order(HttpServletRequest request) {
+		ModelAndView confirmationMV = new ModelAndView("confirm-order");
+		this.initEMF_EM();
+		this.refreshCart(request);
+		confirmationMV.addObject("cart", cart);
+		session.setAttribute("cart", cart);
+		return confirmationMV;
+	}
+	
 	
 	@RequestMapping(value="/remFromCart", method=RequestMethod.POST)
 	public ModelAndView remFromCart(HttpServletRequest request) {
@@ -161,8 +174,7 @@ public class OrderController {
 		}
 		
 		this.refreshCart(request);
-		
-		confirmationMV.addObject("cart", cart);
+	
 		
 		return confirmationMV;
 	}
