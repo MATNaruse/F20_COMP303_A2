@@ -101,20 +101,38 @@ public class OrderController {
 //		ModelAndView confirmationMV = new ModelAndView("confirm-order");
 		ModelAndView confirmationMV = new ModelAndView("checkout");
 		System.out.println(request.getParameter("deliveryDate"));
+		Order ord = new Order();
+		ord.isCancelable();
+		
+		this.refreshCart(request);
 		
 		confirmationMV.addObject("cart", cart);
 		
 		return confirmationMV;
 	}
 	
-	private void addCartItemToCart(HttpServletRequest request, String qProdName, double qProdPrice, int quantity) {
+	/**
+	 * Collects the cart from session, or creates it if it doesn't exist
+	 * @param request HttpServletRequest
+	 */
+	private void refreshCart(HttpServletRequest request) {
 		session = request.getSession();
 		cart = (Map<String, CartItem>) session.getAttribute("cart");
-		
 		if(cart == null) {
 			cart = new HashMap<String, CartItem>();
 			session.setAttribute("cart", cart);
 		}
+	}
+	
+	/**
+	 * Adds a CartItem to the Cart
+	 * @param request HttpServletRequest
+	 * @param qProdName Name of Product
+	 * @param qProdPrice Price of Individual Product
+	 * @param quantity Quantity of Product
+	 */
+	private void addCartItemToCart(HttpServletRequest request, String qProdName, double qProdPrice, int quantity) {
+		this.refreshCart(request);
 		
 		if(cart.containsKey(qProdName)) cart.get(qProdName).AddQuantity(quantity);
 		else cart.put(qProdName, new CartItem(qProdName, qProdPrice, quantity));

@@ -10,7 +10,11 @@ package comp303.a2.entities;
 
 import java.io.Serializable;
 import java.lang.String;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.persistence.*;
 
 /**
@@ -26,6 +30,7 @@ public class Order implements Serializable {
 	private int productId;
 	private int quantity;
 	private Date deliveryDate;
+	private Date creationDate;
 	private String orderStatus;
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +73,12 @@ public class Order implements Serializable {
 	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}   
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 	public String getOrderStatus() {
 		return this.orderStatus;
 	}
@@ -76,9 +87,26 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 	}
    
-	/* ADD METHODS HERE
-	 * - Calculate Total (quantity * product.price)
-	 * - Determine "Cancel-able" ((currentDate - deliveryDate) < 24hrs)
-	 * */
+	public boolean isCancelable() {
+		// THIS SHOULD BE BETTER BUT I'M CURRENTLY BRAIN DEAD
+		// Get current date
+		Date Now = new Date();
+		
+		// DEBUG - Need Creation Date First
+		//if (this.creationDate == null) return false;
+		
+		this.creationDate = new GregorianCalendar(2020, Calendar.OCTOBER, 31).getTime();
+		int now_month = Now.getMonth();
+		int now_day = Now.getDate();
+		int cD_month = this.creationDate.getMonth();
+		int cD_day = this.creationDate.getDate();
+		Boolean monthCompare = now_month >= cD_month;
+		Boolean dayCompare = now_day >= cD_day && now_day <= cD_day + 1;
+		
+		System.out.println(String.format("[%b] Month Compare: now %d : cD %d", monthCompare, now_month, cD_month));
+		System.out.println(String.format("[%b] Day Compare: now %d : cD %d ", dayCompare, now_day, cD_day));
+		
+		return monthCompare && dayCompare;
+	}
 	
 }
