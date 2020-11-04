@@ -8,12 +8,21 @@
 
 package comp303.a2.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import comp303.a2.entities.Customer;
 
 @Controller
 public class ViewController {
+	private static HttpSession session;
 
 	/* TEMPORARY CONTROLLER CLASS FOR HYPERLINKS */
 	
@@ -22,6 +31,26 @@ public class ViewController {
 //	public ModelAndView order() {
 //		return new ModelAndView("order");
 //	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView showCurrentUser(Model model, Customer cust, HttpServletRequest request) {
+		session = request.getSession();
+//		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
+//
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("index");
+//		mav.addObject(currCustOBJ);
+//		
+//		return mav;
+		
+		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
+		String name = currCustOBJ.getFirstname();
+		ModelAndView currCustMV = new ModelAndView();
+		currCustMV.addObject("name", name);
+		currCustMV.setViewName("index");
+		
+		return currCustMV;
+	}
 	
 	@GetMapping("/checkout")
 	public ModelAndView checkout() {
