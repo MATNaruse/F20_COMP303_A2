@@ -11,8 +11,11 @@
 
 <div class="container">
 	<div class="card">
-		<h1 class="text-center">Confirm Order</h1>
-		<h4 class="card-title">Order Items</h4>
+		<h1 class="text-center">Order Confirmation</h1>
+		<h4 class="card-title">Thank you for your Order!</h4>
+		<h5 class="card-body">We will process it as soon as possible.</h5>
+		<h5 class="card-body">You have up to 24 hours to modify or delete your order.</h5>
+		<a class="btn btn-primary" href="profile">View All Orders</a>
 		<table class="table">
 			<thead>
 				<tr>
