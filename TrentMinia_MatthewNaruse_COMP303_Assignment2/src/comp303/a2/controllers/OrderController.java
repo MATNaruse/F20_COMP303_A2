@@ -193,7 +193,7 @@ public class OrderController {
 		double orderTotal = 0.0;
 		
 		Order orderInfo = orderItems.get(0);
-		
+		orderInfo.isCancelable();
 		for(Order order: orderItems) {
 			int prodId = order.getProductId();
 			Query q_getProdInfo = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", prodId);
