@@ -3,14 +3,16 @@ SELECT EXISTS (select * from Customer where userName like "MNaruse3");
 Select * from Customer;
 Alter table Customer auto_increment = 1;
 select * from Customer where userName like "MNaruse";
-delete from Customer where username like "MNaruse3";
+delete from Customer where custId > 3;
 
 Insert into Orders (custId, productId, quantity, deliveryDate, orderStatus) Values (1, 1, 20, "2020-10-31", "On The Way");
 Insert into Product (brandName, modelName, price) Values ("Samsung", "Galaxy S6", 120.75);
 Rename table Order2 to Orders;
 
 select * from Orders;
-Delete from Orders where custId = 1;
+
+select * from Orders where custId = 11;
+Delete from Orders where custId = 8;
 Alter table Orders auto_increment = 1;
 
 select * from product;

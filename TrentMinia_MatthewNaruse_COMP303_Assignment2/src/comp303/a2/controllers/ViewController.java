@@ -32,6 +32,7 @@ public class ViewController {
 //		return new ModelAndView("order");
 //	}
 	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView showCurrentUser(Model model, Customer cust, HttpServletRequest request) {
 		session = request.getSession();
@@ -51,11 +52,11 @@ public class ViewController {
 		
 		return currCustMV;
 	}
-	
-	@GetMapping("/checkout")
-	public ModelAndView checkout() {
-		return new ModelAndView("checkout");
-	}
+//	@GetMapping("/checkout")
+//	public ModelAndView checkout() {
+//		return new ModelAndView("checkout");
+//	}
+
 	
 //	@GetMapping("/confirm-order")
 //	public ModelAndView confirm_order() {

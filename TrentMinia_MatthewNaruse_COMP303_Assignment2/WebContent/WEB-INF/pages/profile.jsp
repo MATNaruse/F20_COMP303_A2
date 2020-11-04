@@ -85,6 +85,7 @@
 		<c:when test="${not empty ordersList}">
 			<div class="card profile-orders col-lg-8 col-sm-10">
 				<h2>Your Orders</h2>
+				<a class="btn btn-primary" href="order">Place an Order</a>
 				<form:form method="post" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/view-order">
 					<table class="table">
 					<tr>
@@ -108,6 +109,7 @@
 		<c:otherwise>
 			<div class="card profile-main text-center col-lg-8 col-sm-10">
 				<h2 class="font-italic">You have no orders!</h2>
+				<a class="btn btn-primary" href="order">Place an Order</a>
 			</div>
 		</c:otherwise>
 	</c:choose>
