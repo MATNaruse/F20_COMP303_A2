@@ -13,12 +13,12 @@ select * from Orders;
 
 select * from Orders where custId = 11;
 Delete from Orders where custId = 8;
-Alter table Orders auto_increment = 1;
+Alter table customer auto_increment = 1;
 
 select * from product;
 
 DROP TABLE orders;
-delete from orders;
+delete from customer;
 
 
 

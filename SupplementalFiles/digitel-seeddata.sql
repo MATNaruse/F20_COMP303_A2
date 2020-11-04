@@ -20,12 +20,19 @@ Insert into Product (brandName, modelName, price, imgSrc) values
 ("LG", "LG K31s", 160.00, "css/lg-k31s.jpg");
 
 
+-- Generate Customers --
+Insert into Customer (userName, password, firstname, lastname, address, city, postalCode, country) values
+("APerson", "password", "Aaron", "Aaronson", "111 Art Street", "Arlen", "A1A1A1", "Canada"),
+("BPerson", "password", "Barry", "Bluejeans", "222 Broadway Blvd", "Barrie", "B2B2B2", "Canada"),
+("CPerson", "password", "Carl", "Carlson", "333 Cabot Cres.", "Chicago", "C3C3C3", "Canada");
+
+
 -- Dummy Orders --
-Insert into Orders (custId, productId, quantity, deliveryDate, creationDate, orderStatus) values
-(1, 1, 2, "2020-10-31", "2020-9-25", "On The Way"),
-(1, 3, 1, "2020-11-01", "2020-9-25","On The Way"),
-(1, 2, 4, "2020-11-28", "2020-9-25","On The Way"),
-(1, 5, 2, "2020-11-30", "2020-9-25","On The Way"),
-(1, 7, 3, "2020-12-25", "2020-9-25","On The Way"),
-(1, 3, 1, "2021-01-10", "2020-9-25", "On The Way"),
-(1, 2, 1, "2021-01-17", "2020-9-25", "On The Way");
+Insert into Orders (orderId, custId, productId, quantity, deliveryDate, creationDate, orderStatus) values
+(1, 1, 1, 2, "2020-10-31", "2020-9-25", "On The Way"),
+(2, 2, 3, 1, "2020-11-01", "2020-9-25","On The Way"),
+(3, 3, 2, 4, "2020-11-28", "2020-9-25","On The Way"),
+(4, 2, 5, 2, "2020-11-30", "2020-9-25","On The Way"),
+(4, 2, 7, 3, "2020-12-25", "2020-9-25","On The Way"),
+(5, 3, 3, 1, "2021-01-10", "2020-9-25", "On The Way"),
+(6, 1, 2, 1, "2021-01-17", "2020-9-25", "On The Way");

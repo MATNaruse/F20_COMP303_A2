@@ -71,6 +71,7 @@
 					<button type="submit" class="btn btn-danger" name="deleteOrder" value="${orderInfo.orderId}">Delete Order</button>
 				</form:form>
 			</c:if>
+			<a class="btn btn-primary" href="profile">Return to Orders</a>
 		</div>
 	</div>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />

@@ -30,10 +30,13 @@ public class ProductController {
 	}
 
 	@GetMapping("/order")
-	public ModelAndView mavDisplayPhones() {
+	public ModelAndView mavDisplayPhones(HttpServletRequest request) {
 		this.init_EMF_EM();
 		ModelAndView order = ProductController.displayPhones();
-		order.addObject("cart", new ArrayList<String>());
+		
+		HttpSession session = request.getSession();
+		order.addObject("cart", session.getAttribute("cart"));
+		
 		return order;
 	}
 	
