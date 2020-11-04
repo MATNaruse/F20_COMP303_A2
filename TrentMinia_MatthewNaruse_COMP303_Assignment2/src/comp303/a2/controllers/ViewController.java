@@ -33,24 +33,9 @@ public class ViewController {
 //	}
 	
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping("/index")
 	public ModelAndView showCurrentUser(Model model, Customer cust, HttpServletRequest request) {
-		session = request.getSession();
-//		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
-//
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("index");
-//		mav.addObject(currCustOBJ);
-//		
-//		return mav;
-		
-		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
-		String name = currCustOBJ.getFirstname();
-		ModelAndView currCustMV = new ModelAndView();
-		currCustMV.addObject("name", name);
-		currCustMV.setViewName("index");
-		
-		return currCustMV;
+		return new ModelAndView("index.jsp");
 	}
 //	@GetMapping("/checkout")
 //	public ModelAndView checkout() {

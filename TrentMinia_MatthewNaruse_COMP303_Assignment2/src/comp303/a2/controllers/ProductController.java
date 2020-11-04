@@ -1,14 +1,17 @@
 package comp303.a2.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,19 +22,19 @@ import comp303.a2.entities.Product;
 public class ProductController {
 	private static EntityManagerFactory factory;
 	private static EntityManager eMngr;
-	private static HttpSession session;
 
 	private void init_EMF_EM() {
 		// Instantiate New EntityManagerFactory and EntityManager
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
 	}
-	
-	//TODO: Extract into stand-alone method to call from OrderController
-	@RequestMapping(value="/order", method=RequestMethod.GET)
+
+	@GetMapping("/order")
 	public ModelAndView mavDisplayPhones() {
 		this.init_EMF_EM();
-		return displayPhones();
+		ModelAndView order = ProductController.displayPhones();
+		order.addObject("cart", new ArrayList<String>());
+		return order;
 	}
 	
 	public static ModelAndView displayPhones() {

@@ -90,6 +90,7 @@ public class OrderController {
 								!request.getParameter("ccSecurity").isEmpty() &&
 								!request.getParameter("ccName").isEmpty();
 		
+		// Delivery Date Validation
 		if(!request.getParameter("deliveryDate").isEmpty()) {
 			try {
 				System.out.println(request.getParameter("deliveryDate"));
@@ -255,6 +256,7 @@ public class OrderController {
 		this.initEMF_EM();
 		
 		if(request.getParameter("modifyOrderId") != null) {
+			// Modifying the Order
 			modifyOrderMV = ProductController.displayPhones();
 			int orderId = Integer.parseInt(request.getParameter("modifyOrderId"));
 			session = request.getSession();
@@ -281,6 +283,7 @@ public class OrderController {
 		}
 		
 		else if (request.getParameter("deleteOrder") != null) {
+			// Deleting an Order
 			eMngr.getTransaction().begin();
 			int oldOrderId = Integer.parseInt(request.getParameter("deleteOrder"));
 			Query q_getAllFromOrderId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId").setParameter("eOrdId", oldOrderId);

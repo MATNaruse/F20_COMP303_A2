@@ -55,3 +55,12 @@ body {
 	padding: 15px;
 	margin: 20px 10px;
 }
+
+#ccForm > tbody > tr > td > label{
+	margin-right: 10px;
+}
+
+.input-group{
+	width: 200px;
+	margin: auto;
+}
