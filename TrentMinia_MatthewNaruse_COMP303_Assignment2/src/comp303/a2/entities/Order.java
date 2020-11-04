@@ -102,21 +102,21 @@ public class Order implements Serializable {
 			Date Now = new Date();
 			Date windowStart = sdf.parse(this.creationDate);
 			Date windowEnd = new Date(windowStart.getTime() + 86400000); // Add 24hrs in Milliseconds
-			System.out.println("Order:isCancelable:CHECKING CANCELABLE");
-			System.out.println("Order:isCancelable:windowStart:" + windowStart.toString());
-			System.out.println("Order:isCancelable:--------Now:" + Now.toString());			
-			System.out.println("Order:isCancelable:--windowEnd:" + windowEnd.toString());
+			System.out.println("Order:isCancelable: CHECKING CANCELABLE");
+			System.out.println("Order:isCancelable: windowStart:" + windowStart.toString());
+			System.out.println("Order:isCancelable: --------Now:" + Now.toString());			
+			System.out.println("Order:isCancelable: --windowEnd:" + windowEnd.toString());
 			if (Now.compareTo(windowStart) > 0 && Now.compareTo(windowEnd) < 0) {
-				System.out.println("Order:isCancelable:YES IT'S CANCELABLE");	
+				System.out.println("Order:isCancelable: YES IT'S CANCELABLE");	
 				return true;
 			}
 			else {
-				System.out.println("Order:isCancelable:NOPE IT'S NOT CANCELABLE");	
+				System.out.println("Order:isCancelable: NOPE IT'S NOT CANCELABLE");	
 				return false;
 			}
 		}		
 		catch(ParseException pe) {
-			System.out.println("Order:isCancelable:" + pe.getMessage());
+			System.out.println("Order:isCancelable: " + pe.getMessage());
 			return false;
 		}
 		

@@ -121,9 +121,23 @@ public class OrderController {
 			// Setting up first item in order (if multiple)
 			Date Now = new Date();
 			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			int oldOrderId = 0;
+			if(session.getAttribute("modifyOrderId") != null) {
+				oldOrderId = (Integer) session.getAttribute("modifyOrderId");
+				Query q_getAllFromOrderId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId").setParameter("eOrdId", oldOrderId);
+				List<Order> oldOrders = q_getAllFromOrderId.getResultList();
+				for(Order ord: oldOrders) {
+					eMngr.remove(ord);
+				}
+				eMngr.getTransaction().commit();
+			}
 			
 			// Create the first order item
 			Order newOrder = new Order();
+			if(oldOrderId > 0) {
+				newOrder.setOrderId(oldOrderId);
+				eMngr.getTransaction().begin();
+			}
 			newOrder.setCustId(custId);
 			newOrder.setProductId(finalCart.get(0).getProductId());
 			newOrder.setQuantity(finalCart.get(0).getQuantity());
