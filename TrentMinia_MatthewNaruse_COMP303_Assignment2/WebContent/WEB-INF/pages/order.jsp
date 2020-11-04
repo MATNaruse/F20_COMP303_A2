@@ -19,7 +19,7 @@
 		<h1 class="text-center">Order</h1>
 		<h4 class="card-title">Shopping Cart</h4>
 		<form id="remForm" method="POST"
-			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/remFromCart">
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/update-cart">
 			<table class="table">
 			<thead>
 				<tr>
@@ -42,15 +42,13 @@
 	</div>
 </div>
 
-<!-- Product Items -->
-
-
-		   
+<!-- Display Product Items -->
+	   
 <div class="container">
 	<div class="card-columns">
 		<c:forEach var="prod" items="${products}">
 			<form:form method="POST"
-			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/addToCart"
+			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/update-cart"
 			   modelAttribute="product">
 				<div id="phoneCard" class="card">
 					<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
@@ -63,45 +61,10 @@
 						</div>
 						<input name="quantity" class="form-control" type="number" min="1" value="1"/>
 					</div>
-					<button name="product" class="btn btn-primary" type="submit" value="${prod.productId}">Add to Cart</button>
+					<button name="addItem" class="btn btn-primary" type="submit" value="${prod.productId}">Add to Cart</button>
 				</div>
 			</form:form>
 		</c:forEach>
 	</div>
-<!-- 	<div class="card">
-	  <div class="card-body">
-	    <h4 class="card-title">Items in Cart</h4>
-	    <p class="card-text">
-	      Don't forget to checkout to complete your order!
-	    </p>
-		<table class="table">
-		<thead>
-			<tr>
-				<th>Product</th><th>Quantity</th><th>Price</th><th></th>
-			</tr>
-			
-			<c:forEach var="order" items="${ordersList}">
-			<tr>
-				<td>${productname}</td><td>${quantity}</td><td>${price}</td><td><span class="btn btn-danger">Remove</span></td>
-			</tr>
-			</c:forEach>
-			 
-		</thead>
-		<tbody>
-			<tr>
-				<td>Apple iPhone 12</td><td>1</td><td>$1399.99</td><td><span class="btn btn-danger">Remove</span></td>
-			</tr>
-			<tr>
-				<td>Samsung Galaxy A71</td><td>1</td><td>$539.99</td><td><span class="btn btn-danger">Remove</span></td>
-			</tr>
-		</tbody>
-		</table>
-	    <a href="#!" class="btn btn-primary">Checkout</a>
-	  </div>
-	</div>
 </div>
--->
-
-
-
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
