@@ -68,6 +68,7 @@
 			<c:if test="${orderInfo.isCancelable()}">
 				<form:form method="post" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/modify-order">
 					<button type="submit" class="btn btn-primary" name="modifyOrderId" value="${orderInfo.orderId}">Modify Order</button>
+					<button type="submit" class="btn btn-danger" name="deleteOrder" value="${orderInfo.orderId}">Delete Order</button>
 				</form:form>
 			</c:if>
 		</div>

@@ -11,7 +11,7 @@ Rename table Order2 to Orders;
 
 select * from Orders;
 
-select * from Orders where custId = 12;
+select * from Orders where custId = 11;
 Delete from Orders where custId = 8;
 Alter table Orders auto_increment = 1;
 

@@ -251,32 +251,55 @@ public class OrderController {
 		
 	@PostMapping("/modify-order")
 	public ModelAndView modifyOrder(HttpServletRequest request) {
-		ModelAndView modifyOrderMV = ProductController.displayPhones();
-		int orderId = Integer.parseInt(request.getParameter("modifyOrderId"));
-		session = request.getSession();
-		session.setAttribute("modifyOrderId", orderId);
-		Customer currCust = (Customer) session.getAttribute("currentCustomer");
-		
+		ModelAndView modifyOrderMV = null;
 		this.initEMF_EM();
-		eMngr.getTransaction().begin();
-		Query q_getOrdersByOrderIdCustId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId and e.custId = :eCustId")
-				.setParameter("eOrdId", orderId).setParameter("eCustId", currCust.getCustId());
-		List<Order> orders = q_getOrdersByOrderIdCustId.getResultList();
 		
-		Map<String, CartItem> orderCart = new HashMap<String, CartItem>();
-		for(Order ord: orders) {
-			Query q_getProductByProdId = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", ord.getProductId());
-			Product qProd = (Product) q_getProductByProdId.getSingleResult();
-			CartItem newCItem = new CartItem(qProd.getModelName(), qProd.getProductId(), qProd.getPrice(), ord.getQuantity());	
-			orderCart.put(qProd.getModelName(), newCItem);
+		if(request.getParameter("modifyOrderId") != null) {
+			modifyOrderMV = ProductController.displayPhones();
+			int orderId = Integer.parseInt(request.getParameter("modifyOrderId"));
+			session = request.getSession();
+			session.setAttribute("modifyOrderId", orderId);
+			Customer currCust = (Customer) session.getAttribute("currentCustomer");
+			
+			eMngr.getTransaction().begin();
+			Query q_getOrdersByOrderIdCustId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId and e.custId = :eCustId")
+					.setParameter("eOrdId", orderId).setParameter("eCustId", currCust.getCustId());
+			List<Order> orders = q_getOrdersByOrderIdCustId.getResultList();
+			
+			Map<String, CartItem> orderCart = new HashMap<String, CartItem>();
+			for(Order ord: orders) {
+				Query q_getProductByProdId = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", ord.getProductId());
+				Product qProd = (Product) q_getProductByProdId.getSingleResult();
+				CartItem newCItem = new CartItem(qProd.getModelName(), qProd.getProductId(), qProd.getPrice(), ord.getQuantity());	
+				orderCart.put(qProd.getModelName(), newCItem);
+			}
+			
+			cart = orderCart;
+			
+			session.setAttribute("cart", cart);
+			modifyOrderMV.addObject("cart", cart);		
 		}
 		
-		cart = orderCart;
+		else if (request.getParameter("deleteOrder") != null) {
+			eMngr.getTransaction().begin();
+			int oldOrderId = Integer.parseInt(request.getParameter("deleteOrder"));
+			Query q_getAllFromOrderId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId").setParameter("eOrdId", oldOrderId);
+			List<Order> oldOrders = q_getAllFromOrderId.getResultList();
+			for(Order ord: oldOrders) {
+				eMngr.remove(ord);
+			}
+			eMngr.getTransaction().commit();
+			modifyOrderMV = new ModelAndView("profile");
+			session = request.getSession();
+			Customer cust = (Customer) session.getAttribute("currentCustomer");
+			modifyOrderMV.addObject("cust", cust);
+			modifyOrderMV.addObject("out_msg", String.format("Order #%d Deleted!", oldOrderId));
+			modifyOrderMV.addObject("ordersList", CustomerController.displayOrders(cust.getCustId()));
+		}
 		
-		session.setAttribute("cart", cart);
-		modifyOrderMV.addObject("cart", cart);		
-
+		eMngr.close();
 		return modifyOrderMV;
+
 	}
 	
 	// Private Methods

@@ -269,11 +269,11 @@ public class CustomerController {
 	 * @param custId Customer's ID
 	 * @return List<Order> of all Orders by Customer
 	 */
-	private List<Order> displayOrders(int custId) {
+	public static List<Order> displayOrders(int custId) {
 		List<Order> ordersList = null;
-//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-//		eMngr = factory.createEntityManager();
-		this.initEMF_EM();
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+//		this.initEMF_EM();
 		
 		try {		
 			eMngr.getTransaction().begin();
