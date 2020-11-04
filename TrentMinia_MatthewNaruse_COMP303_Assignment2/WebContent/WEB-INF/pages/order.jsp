@@ -38,7 +38,16 @@
 			</tbody>
 		</table>
 		</form>
-	    <a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
+		<c:if test="${cart != null}">
+			<c:choose>
+				<c:when test="${cart.isEmpty()}">
+					<button type="button" class="btn btn-primary" disabled>Cart Empty</button> 
+				</c:when>
+				<c:otherwise>
+					<a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
+				</c:otherwise>
+			</c:choose>
+		</c:if>
 	</div>
 </div>
 
