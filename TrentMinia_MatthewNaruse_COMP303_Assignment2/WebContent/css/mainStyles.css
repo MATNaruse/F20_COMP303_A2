@@ -41,7 +41,8 @@ body {
 }
 
 #phoneCard > img{
-	width:200px;
+	width:auto;
+	max-height:200px;
 }
 
 .profile-main{
