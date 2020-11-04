@@ -7,7 +7,11 @@
  -->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
-<jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+
+<% if (session.getAttribute("currentCustomer") != null) { %>
+	<jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+<% } %>
+
 <div class="form-signin card">
 	<h1>Welcome to Digi Tel</h1>
 	<% if (session.getAttribute("currentCustomer") == null) { %>
