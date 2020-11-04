@@ -10,6 +10,8 @@ package comp303.a2.entities;
 
 import java.io.Serializable;
 import java.lang.String;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,26 +92,34 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 	}
    
-//	public boolean isCancelable() {
-//		// THIS SHOULD BE BETTER BUT I'M CURRENTLY BRAIN DEAD
-//		// Get current date
-//		Date Now = new Date();
-//		
-//		// DEBUG - Need Creation Date First
-//		//if (this.creationDate == null) return false;
-//		
-//		this.creationDate = new GregorianCalendar(2020, Calendar.OCTOBER, 31).getTime();
-//		int now_month = Now.getMonth();
-//		int now_day = Now.getDate();
-//		int cD_month = this.creationDate.getMonth();
-//		int cD_day = this.creationDate.getDate();
-//		Boolean monthCompare = now_month >= cD_month;
-//		Boolean dayCompare = now_day >= cD_day && now_day <= cD_day + 1;
-//		
-//		System.out.println(String.format("[%b] Month Compare: now %d : cD %d", monthCompare, now_month, cD_month));
-//		System.out.println(String.format("[%b] Day Compare: now %d : cD %d ", dayCompare, now_day, cD_day));
-//		
-//		return monthCompare && dayCompare;
-//	}
+	public String getPlainCreationDate() {
+		return (String) this.creationDate.subSequence(0, 10);
+	}
+
+	public boolean isCancelable() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date Now = new Date();
+			Date windowStart = sdf.parse(this.creationDate);
+			Date windowEnd = new Date(windowStart.getTime() + 86400000); // Add 24hrs in Milliseconds
+			System.out.println("Order:isCancelable: CHECKING CANCELABLE");
+			System.out.println("Order:isCancelable: windowStart:" + windowStart.toString());
+			System.out.println("Order:isCancelable: --------Now:" + Now.toString());			
+			System.out.println("Order:isCancelable: --windowEnd:" + windowEnd.toString());
+			if (Now.compareTo(windowStart) > 0 && Now.compareTo(windowEnd) < 0) {
+				System.out.println("Order:isCancelable: YES IT'S CANCELABLE");	
+				return true;
+			}
+			else {
+				System.out.println("Order:isCancelable: NOPE IT'S NOT CANCELABLE");	
+				return false;
+			}
+		}		
+		catch(ParseException pe) {
+			System.out.println("Order:isCancelable: " + pe.getMessage());
+			return false;
+		}
+		
+	}
 	
 }

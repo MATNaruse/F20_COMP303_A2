@@ -7,8 +7,12 @@
  -->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
-<jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+
+<% if (session.getAttribute("currentCustomer") != null) { %>
+	<jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
+<% } %>
 
 <form:form method="POST" 
 			action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/trylogin"
@@ -35,6 +39,7 @@
 	<form:password id="password" class="form-control" placeholder="Password" path="password" required="required"/>
 	
 	<input class="btn btn-primary" type="submit" value="Log In"/>
+	<a class="nav-link" href="index.jsp">&lt&lt Back to Home</a>
 </form:form>
 
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />

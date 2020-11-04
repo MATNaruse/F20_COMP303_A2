@@ -8,6 +8,7 @@
 
 package comp303.a2.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,7 +23,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -173,10 +176,15 @@ public class CustomerController {
 			// Save new Customer to Table
 			eMngr.persist(cust);
 			eMngr.getTransaction().commit();
+			
+			Query q_getByUsername = eMngr.createQuery("Select e from Customer e where e.userName like :eUserName").setParameter("eUserName", cust.getUserName());
+			Customer regCustomer = (Customer) q_getByUsername.getSingleResult();
+			
 			eMngr.close();
 			
 			// Setting Newly Registered Customer as Logged In
-			session.setAttribute("currentCustomer", cust);
+			session.setAttribute("currentCustomer", regCustomer);
+			session.setAttribute("cart", null);
 			return new ModelAndView("profile", "cust", cust);
 		}
 		
@@ -238,7 +246,6 @@ public class CustomerController {
 		eMngr.getTransaction().begin();
 		Customer currCustOBJ = eMngr.find(Customer.class, custId);
 		
-//		currCustOBJ.setUserName(request.getParameter("userName"));
 		currCustOBJ.setPassword(request.getParameter("password"));
 		currCustOBJ.setFirstname(request.getParameter("firstname"));
 		currCustOBJ.setLastname(request.getParameter("lastname"));
@@ -254,6 +261,7 @@ public class CustomerController {
 		ModelAndView updatedProfileMV = new ModelAndView("profile", "cust", currCustOBJ);
 		updatedProfileMV.addObject("out_msg", "Profile Updated Successfully!");
 		List<Order> ordersList = this.displayOrders(currCustOBJ.getCustId());
+
 		updatedProfileMV.addObject("ordersList", ordersList);
 		
 		return updatedProfileMV;
@@ -263,11 +271,11 @@ public class CustomerController {
 	 * @param custId Customer's ID
 	 * @return List<Order> of all Orders by Customer
 	 */
-	private List<Order> displayOrders(int custId) {
+	public static List<Order> displayOrders(int custId) {
 		List<Order> ordersList = null;
-//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-//		eMngr = factory.createEntityManager();
-		this.initEMF_EM();
+		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
+		eMngr = factory.createEntityManager();
+//		this.initEMF_EM();
 		
 		try {		
 			eMngr.getTransaction().begin();
@@ -282,6 +290,21 @@ public class CustomerController {
 			eMngr.close();
 		}
 
+		if (ordersList != null) {
+			List<Order> filteredList = new ArrayList<Order>();
+			Order prevOrd = null;
+			for(Order ord : ordersList) {
+				if(prevOrd == null) {
+					prevOrd = ord;
+					filteredList.add(ord);
+				}
+				else if (prevOrd.getOrderId() != ord.getOrderId()) {
+					filteredList.add(ord);
+					prevOrd = ord;
+				}
+			}
+			return filteredList;
+		}
 		return ordersList;
 
 
