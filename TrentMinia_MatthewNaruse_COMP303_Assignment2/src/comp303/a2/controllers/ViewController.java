@@ -23,10 +23,10 @@ public class ViewController {
 //		return new ModelAndView("order");
 //	}
 	
-	@GetMapping("/checkout")
-	public ModelAndView checkout() {
-		return new ModelAndView("checkout");
-	}
+//	@GetMapping("/checkout")
+//	public ModelAndView checkout() {
+//		return new ModelAndView("checkout");
+//	}
 	
 //	@GetMapping("/confirm-order")
 //	public ModelAndView confirm_order() {

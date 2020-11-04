@@ -35,6 +35,9 @@
 		<a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/order" class="btn btn-primary">Modify Cart</a>
 	</div>
 
+	<c:if test="${not empty out_msg}">
+		<div class="alert alert-danger" >${out_msg}</div>
+	</c:if>
 	<!-- Credit Card Form -->
 	<form method="POST"	action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/confirmPayment"
 				class="card">
@@ -46,11 +49,11 @@
 			</tr>
 			<tr>
 				<td><label for="ccSecurity" >Credit Card Security Code</label></td>
-				<td><input class="form-control" id="ccSecurity" name="ccSecurtiy" placeholder="000"/></td>
+				<td><input class="form-control" id="ccSecurity" name="ccSecurity" placeholder="000"/></td>
 			</tr>
 			<tr>
 				<td><label for="ccName" >Card Holder Name</label></td>
-				<td><input class="form-control" id="ccName" name="ccName"/></td>
+				<td><input class="form-control" id="ccName" name="ccName" value="${cust.getFullName()}"/></td>
 			</tr>
 			<tr>
 				<td><label for="deliveryDate" >Delivery Date</label></td>

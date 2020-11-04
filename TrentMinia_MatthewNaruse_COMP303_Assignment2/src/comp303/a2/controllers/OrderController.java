@@ -1,5 +1,6 @@
 package comp303.a2.controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,64 +42,8 @@ public class OrderController {
 	
 	private static Map<String, CartItem> cart;// = new HashMap<String, CartItem>();	
 	
-	 // Mapping Methods
-
-
-//	@RequestMapping(value="/addToCart", method=RequestMethod.POST)
-//	public ModelAndView addItem(@ModelAttribute("product") Product prod, HttpServletRequest request, HttpServletResponse response) {
-//		this.initEMF_EM();
-//		
-//		// Get product id and quantity of selected product
-//		int productId = Integer.parseInt(request.getParameter("product"));
-//		int quantity = Integer.parseInt(request.getParameter("quantity"));
-//		ModelAndView updatedCartMV = ProductController.displayPhones();
-//		
-//		// Run query to get products
-//		try {
-//			eMngr.getTransaction().begin();
-//			Query q_getByProductId = eMngr.createQuery("Select e from Product e where e.productId = :eProductId")
-//										.setParameter("eProductId", Integer.parseInt(request.getParameter("product")));
-//			Product queryProduct = (Product) q_getByProductId.getSingleResult();
-//			String qProdName = queryProduct.getModelName();
-//			double qProdPrice = queryProduct.getPrice();
-//			int qProdId = queryProduct.getProductId();
-//			eMngr.close();
-//			
-//			// Get Existing Cart from Session
-//			this.addCartItemToCart(request, qProdName, qProdId, qProdPrice, quantity);
-//			
-//			updatedCartMV.addObject("cart", cart);
-//
-//		} catch (Exception ex) {
-//			System.out.println("OrderController:addItem: " + ex.getMessage());
-//		}
-//		
-//		return updatedCartMV;
-//	}
+	// Mapping Methods
 	
-	@GetMapping("/confirm-order")
-	public ModelAndView confirm_order(HttpServletRequest request) {
-		ModelAndView confirmationMV = new ModelAndView("confirm-order");
-		this.initEMF_EM();
-		this.getSessionCart(request);
-		confirmationMV.addObject("cart", cart);
-		session.setAttribute("cart", cart);
-		return confirmationMV;
-	}
-	
-//	@RequestMapping(value="/remFromCart", method=RequestMethod.POST)
-//	public ModelAndView remFromCart(HttpServletRequest request) {
-//		ModelAndView updatedCart = ProductController.displayPhones();
-//		session = request.getSession();
-//		cart = (Map<String, CartItem>) session.getAttribute("cart");
-//		cart.remove(request.getParameter("removeItem"));
-//		session.setAttribute("cart", cart);
-//		
-//		updatedCart.addObject("cart", cart);
-//		return updatedCart;
-//		
-//	}
-//	
 	@PostMapping("/update-cart")
 	public ModelAndView updateCart(HttpServletRequest request) {
 		ModelAndView updatedCart = ProductController.displayPhones();
@@ -106,19 +51,18 @@ public class OrderController {
 		this.getSessionCart(request);
 		this.initEMF_EM();
 		
-		String removeItem = request.getParameter("removeItem");
-		int addItem = Integer.parseInt(request.getParameter("addItem"));
-		
 		// If Removing
-		if(removeItem != null) {
-			this.remCartItemFromCart(request, removeItem);
+		if(request.getParameter("removeItem") != null) {
+			String removeItemName = request.getParameter("removeItem");
+			this.remCartItemFromCart(request, removeItemName);
 		}
 		
 		// If Adding
-		else if(addItem > 0){
+		else if(request.getParameter("addItem") != null){
 			// Get quantity of selected product
+			int addItemId = Integer.parseInt(request.getParameter("addItem"));
 			int quantity = Integer.parseInt(request.getParameter("quantity"));
-			Product newProd = this.getProductById(addItem);
+			Product newProd = this.getProductById(addItemId);
 			this.addCartItemToCart(request, newProd, quantity);
 		}
 		
@@ -126,14 +70,42 @@ public class OrderController {
 		return updatedCart;
 	}
 	
+	@GetMapping("/checkout")
+	public ModelAndView checkout(HttpServletRequest request) {
+		ModelAndView checkoutMV = new ModelAndView("checkout");
+		
+		this.getSessionCart(request);
+		Customer cust = (Customer) session.getAttribute("currentCustomer");
+		checkoutMV.addObject("cart", cart);
+		checkoutMV.addObject("cust", cust);
+		
+		return checkoutMV;
+	}
+		
 	@PostMapping("/confirmPayment")
 	public ModelAndView confirmPayment(HttpServletRequest request) {
 		ModelAndView confirmationMV = new ModelAndView("confirm-order");
+		Boolean validDate = false;
+		Boolean ccFilledOut = !request.getParameter("ccNumber").isEmpty()&&
+								!request.getParameter("ccSecurity").isEmpty() &&
+								!request.getParameter("ccName").isEmpty();
 		
-		// THIS IS FORM VALIDATION
-		Boolean correct_data = true;
+		if(!request.getParameter("deliveryDate").isEmpty()) {
+			try {
+				System.out.println(request.getParameter("deliveryDate"));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date dDate = sdf.parse(request.getParameter("deliveryDate"));
+				Date now = new Date();
+				int compareDate = dDate.compareTo(now);
+				validDate = compareDate >= 0;
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-		if(correct_data) {
+		if(ccFilledOut && validDate) {
 			// Initialize EMF and EM
 			this.initEMF_EM();
 			
@@ -160,9 +132,7 @@ public class OrderController {
 			newOrder.setOrderStatus("Processing...");
 			
 			eMngr.persist(newOrder);
-//			eMngr.getTransaction().commit();
-			
-			
+	
 			if(finalCart.size() > 1) {
 				// If there are other items considered in this order, then get the last orderId to use
 				int newOrderId = 0;
@@ -187,11 +157,41 @@ public class OrderController {
 			eMngr.close();
 		}
 		
+		else {
+			ModelAndView redoCheckout = new ModelAndView("checkout");
+			if(!ccFilledOut) {
+				redoCheckout.addObject("out_msg", "Please fill out All Credit card fields");
+			}
+			
+			else if(!validDate) {
+				redoCheckout.addObject("out_msg", "Please choose a valid Delivery Date");
+			}
+			this.getSessionCart(request);
+			session.setAttribute("cart", cart);
+			redoCheckout.addObject("cart", cart);
+			
+			Customer cust = (Customer) session.getAttribute("currentCustomer");
+			redoCheckout.addObject("cust", cust);
+			
+			return redoCheckout;
+		}
+		
+		
 		this.getSessionCart(request);
 		Map<String, CartItem> displayConfirmOrder = cart;
-		session.setAttribute("cart", null);
 		
+		session.setAttribute("cart", null);
 		confirmationMV.addObject("cart", displayConfirmOrder);
+		return confirmationMV;
+	}
+	
+	@GetMapping("/confirm-order")
+	public ModelAndView confirmOrderMV(HttpServletRequest request) {
+		ModelAndView confirmationMV = new ModelAndView("confirm-order");
+		this.initEMF_EM();
+		this.getSessionCart(request);
+		confirmationMV.addObject("cart", cart);
+		session.setAttribute("cart", cart);
 		return confirmationMV;
 	}
 	
