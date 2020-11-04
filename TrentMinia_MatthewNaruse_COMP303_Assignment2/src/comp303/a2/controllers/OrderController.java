@@ -109,6 +109,7 @@ public class OrderController {
 	public ModelAndView confirmPayment(HttpServletRequest request) {
 		ModelAndView confirmationMV = new ModelAndView("confirm-order");
 		
+		// THIS IS FORM VALIDATION
 		Boolean correct_data = true;
 		
 		if(correct_data) {
@@ -126,7 +127,7 @@ public class OrderController {
 			
 			// Setting up first item in order (if multiple)
 			Date Now = new Date();
-			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf_mysql = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
 			// Create the first order item
 			Order newOrder = new Order();
@@ -143,10 +144,10 @@ public class OrderController {
 			
 			if(finalCart.size() > 1) {
 				// If there are other items considered in this order, then get the last orderId to use
+				int newOrderId = 0;
 				Query q_getLastIndex = eMngr.createQuery("Select max(e.orderId) from Orders e where e.custId = :eCustId").setParameter("eCustId", custId);
-				int newOrderId = (Integer) q_getLastIndex.getSingleResult();
+				newOrderId = (Integer) q_getLastIndex.getSingleResult();
 				System.out.println("LAST INDEX = " + newOrderId);
-				
 				for(CartItem cItem: finalCart) {
 					if(finalCart.indexOf(cItem) != 0) {
 						Order nextOrder = new Order();
@@ -158,13 +159,11 @@ public class OrderController {
 						nextOrder.setCreationDate(sdf_mysql.format(Now));
 						nextOrder.setOrderStatus("Processing...");
 						eMngr.persist(nextOrder);
-//						eMngr.getTransaction().commit();
 					}
 				}
 			}
 			eMngr.getTransaction().commit();
 			eMngr.close();
-//			return new ModelAndView("confirm-order");
 		}
 		
 		this.refreshCart(request);
@@ -215,6 +214,36 @@ public class OrderController {
 		return viewOrderMV;
 	}
 	
+	
+	@PostMapping("/modify-order")
+	public ModelAndView modifyOrder(HttpServletRequest request) {
+		ModelAndView modifyOrderMV = ProductController.displayPhones();
+		int orderId = Integer.parseInt(request.getParameter("modifyOrderId"));
+		session = request.getSession();
+		session.setAttribute("modifyOrderId", orderId);
+		Customer currCust = (Customer) session.getAttribute("currentCustomer");
+		
+		this.initEMF_EM();
+		eMngr.getTransaction().begin();
+		Query q_getOrdersByOrderIdCustId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId and e.custId = :eCustId")
+				.setParameter("eOrdId", orderId).setParameter("eCustId", currCust.getCustId());
+		List<Order> orders = q_getOrdersByOrderIdCustId.getResultList();
+		
+		Map<String, CartItem> orderCart = new HashMap<String, CartItem>();
+		for(Order ord: orders) {
+			Query q_getProductByProdId = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", ord.getProductId());
+			Product qProd = (Product) q_getProductByProdId.getSingleResult();
+			CartItem newCItem = new CartItem(qProd.getModelName(), qProd.getProductId(), qProd.getPrice(), ord.getQuantity());	
+			orderCart.put(qProd.getModelName(), newCItem);
+		}
+		
+		cart = orderCart;
+		
+		session.setAttribute("cart", cart);
+		modifyOrderMV.addObject("cart", cart);		
+
+		return modifyOrderMV;
+	}
 	
 	// Private Methods
 	

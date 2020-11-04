@@ -6,6 +6,7 @@
 	300 549 638 : Matthew Naruse
  -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/pages/segments/header.jsp" />
 <jsp:include page="/WEB-INF/pages/segments/navbar.jsp" />
 	<h1 class="card profile-main text-center">View Order</h1>
@@ -64,6 +65,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<c:if test="${orderInfo.isCancelable()}">
+				<form:form method="post" action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/modify-order">
+					<button type="submit" class="btn btn-primary" name="modifyOrderId" value="${orderInfo.orderId}">Modify Order</button>
+				</form:form>
+			</c:if>
 		</div>
 	</div>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
