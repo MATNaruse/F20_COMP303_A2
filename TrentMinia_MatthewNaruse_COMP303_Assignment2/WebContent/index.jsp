@@ -1,7 +1,7 @@
 <!-- 
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
  -->

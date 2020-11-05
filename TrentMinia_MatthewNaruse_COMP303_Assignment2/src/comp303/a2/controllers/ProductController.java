@@ -1,3 +1,11 @@
+/*
+	COMP303-001 Assignment 2
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+*/
+
 package comp303.a2.controllers;
 
 import java.util.ArrayList;
@@ -52,11 +60,7 @@ public class ProductController {
 			eMngr.getTransaction().begin();
 			Query q_getAllProducts = eMngr.createQuery("Select e from Product e");
 			productList = q_getAllProducts.getResultList();
-//			System.out.println(productList);
 			productListMV.addObject("products", productList);
-//			for(Product prod: productList) {
-//				System.out.println(prod.getBrandName() + "|" + prod.getModelName() + "|" + prod.getPrice());
-//			}
 			eMngr.close();
 		}
 		

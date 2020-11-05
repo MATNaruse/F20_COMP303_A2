@@ -10,3 +10,4 @@ Alter table customer auto_increment = 1;
 -- Check Tables --
 Select * from Orders;
 Select * from Customer;
+Select * from Product;

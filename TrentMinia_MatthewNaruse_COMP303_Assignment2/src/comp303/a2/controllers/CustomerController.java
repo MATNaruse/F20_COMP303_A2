@@ -1,7 +1,7 @@
 /*
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
 */
@@ -69,8 +69,6 @@ public class CustomerController {
 		if (result.hasErrors()) return null;
 		
 		// Instantiate New EntityManagerFactory and EntityManager
-//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-//		eMngr = factory.createEntityManager();
 		this.initEMF_EM();
 		
 		try {
@@ -149,12 +147,9 @@ public class CustomerController {
 		// Checks for errors first
 		if (result.hasErrors()) return null;
 		
-		// TODO: I don't know if this model is actually needed
 		model.addAttribute("customer", cust); 
 		
 		// Instantiate New EntityManagerFactory and EntityManager
-//		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
-//		eMngr = factory.createEntityManager();
 		this.initEMF_EM();
 		session = request.getSession();
 		
@@ -197,7 +192,6 @@ public class CustomerController {
 		}
 	}
 	
-
 	/**
 	 * [GET] Mapping for Profile Page
 	 * @param model Model
@@ -206,8 +200,7 @@ public class CustomerController {
 	 */
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView viewProfile(Model model, HttpServletRequest request) {
-		//TODO: I don't exactly know if Model is still needed here again...
-		
+
 		session = request.getSession();
 		
 		// If there is a Customer logged in
@@ -226,7 +219,6 @@ public class CustomerController {
 		}
 		
 		// If not logged in, then prompt them
-		// TODO: This has become a backup safety, as UI option to view profile while not logged in isn't possible.
 		else {
 			ModelAndView login_prompt = this.preplogin();
 			login_prompt.addObject("out_msg", "You need to log in first");
@@ -266,6 +258,7 @@ public class CustomerController {
 		
 		return updatedProfileMV;
 	}
+	
 	/**
 	 * Get a list of Orders, by Customer ID
 	 * @param custId Customer's ID
@@ -275,7 +268,6 @@ public class CustomerController {
 		List<Order> ordersList = null;
 		factory = Persistence.createEntityManagerFactory("TrentMinia_MatthewNaruse_COMP303_Assignment2");
 		eMngr = factory.createEntityManager();
-//		this.initEMF_EM();
 		
 		try {		
 			eMngr.getTransaction().begin();
@@ -306,10 +298,5 @@ public class CustomerController {
 			return filteredList;
 		}
 		return ordersList;
-
-
 	}
-	
-	
-	
 }
