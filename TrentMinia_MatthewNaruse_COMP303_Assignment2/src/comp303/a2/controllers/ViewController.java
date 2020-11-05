@@ -1,7 +1,7 @@
 /*
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
 */
@@ -22,10 +22,7 @@ import comp303.a2.entities.Customer;
 
 @Controller
 public class ViewController {
-	private static HttpSession session;
 
-	/* TEMPORARY CONTROLLER CLASS FOR HYPERLINKS */
-	
 	// Handled in ProductController
 //	@GetMapping("/order")
 //	public ModelAndView order() {
@@ -33,24 +30,9 @@ public class ViewController {
 //	}
 	
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping("/index")
 	public ModelAndView showCurrentUser(Model model, Customer cust, HttpServletRequest request) {
-		session = request.getSession();
-//		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
-//
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("index");
-//		mav.addObject(currCustOBJ);
-//		
-//		return mav;
-		
-		Customer currCustOBJ = (Customer) session.getAttribute("currentCustomer");
-		String name = currCustOBJ.getFirstname();
-		ModelAndView currCustMV = new ModelAndView();
-		currCustMV.addObject("name", name);
-		currCustMV.setViewName("index");
-		
-		return currCustMV;
+		return new ModelAndView("index.jsp");
 	}
 //	@GetMapping("/checkout")
 //	public ModelAndView checkout() {

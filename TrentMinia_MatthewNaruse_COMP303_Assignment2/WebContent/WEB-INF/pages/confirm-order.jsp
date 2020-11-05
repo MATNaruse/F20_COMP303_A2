@@ -1,7 +1,7 @@
 <!-- 
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
  -->
@@ -11,8 +11,11 @@
 
 <div class="container">
 	<div class="card">
-		<h1 class="text-center">Confirm Order</h1>
-		<h4 class="card-title">Order Items</h4>
+		<h1 class="text-center">Order Confirmation</h1>
+		<h4 class="card-title">Thank you for your Order!</h4>
+		<h5 class="card-body">We will process it as soon as possible.</h5>
+		<h5 class="card-body">You have up to 24 hours to modify or delete your order.</h5>
+		<a class="btn btn-primary" href="profile">View All Orders</a>
 		<table class="table">
 			<thead>
 				<tr>

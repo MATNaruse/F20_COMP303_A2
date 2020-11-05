@@ -1,3 +1,11 @@
+/*
+	COMP303-001 Assignment 2
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
+	301 041 132 : Trent Minia
+	300 549 638 : Matthew Naruse
+*/
+
 package comp303.a2.controllers;
 
 import java.text.ParseException;
@@ -40,7 +48,7 @@ public class OrderController {
 	private static EntityManagerFactory factory;
 	private static EntityManager eMngr;
 	
-	private static Map<String, CartItem> cart;// = new HashMap<String, CartItem>();	
+	private static Map<String, CartItem> cart;	
 	
 	// Mapping Methods
 	
@@ -90,6 +98,7 @@ public class OrderController {
 								!request.getParameter("ccSecurity").isEmpty() &&
 								!request.getParameter("ccName").isEmpty();
 		
+		// Delivery Date Validation
 		if(!request.getParameter("deliveryDate").isEmpty()) {
 			try {
 				System.out.println(request.getParameter("deliveryDate"));
@@ -172,6 +181,7 @@ public class OrderController {
 		}
 		
 		else {
+			// Make the customer correct their errors
 			ModelAndView redoCheckout = new ModelAndView("checkout");
 			if(!ccFilledOut) {
 				redoCheckout.addObject("out_msg", "Please fill out All Credit card fields");
@@ -222,18 +232,21 @@ public class OrderController {
 		Customer currCustomer = (Customer) session.getAttribute("currentCustomer");
 		int custId = currCustomer.getCustId();
 		
+		// Get OrderItems and prep them for the cart
 		List<Order> orderItems = this.organizeOrder(orderId, custId);
 		List<CartItem> cartItems = new ArrayList<CartItem>();
 		double orderTotal = 0.0;
 		
+		// Using first orderItem to get OrderId
 		Order orderInfo = orderItems.get(0);
-		orderInfo.isCancelable();
+
 		for(Order order: orderItems) {
+			// Getting Product Information
 			int prodId = order.getProductId();
-			Query q_getProdInfo = eMngr.createQuery("Select e from Product e where e.productId = :eProdId").setParameter("eProdId", prodId);
-			Product qProd = (Product) q_getProdInfo.getSingleResult();
+			Product qProd = eMngr.find(Product.class, prodId);
 			
-			CartItem cItem = new CartItem(qProd.getModelName(), prodId, qProd.getPrice(), order.getQuantity());
+			// Adding OrderItems to Cart
+			CartItem cItem = new CartItem(qProd, order.getQuantity());
 			orderTotal += cItem.getTotalPrice();
 			cartItems.add(cItem);
 		}
@@ -255,6 +268,7 @@ public class OrderController {
 		this.initEMF_EM();
 		
 		if(request.getParameter("modifyOrderId") != null) {
+			// Modifying the Order
 			modifyOrderMV = ProductController.displayPhones();
 			int orderId = Integer.parseInt(request.getParameter("modifyOrderId"));
 			session = request.getSession();
@@ -281,6 +295,7 @@ public class OrderController {
 		}
 		
 		else if (request.getParameter("deleteOrder") != null) {
+			// Deleting an Order
 			eMngr.getTransaction().begin();
 			int oldOrderId = Integer.parseInt(request.getParameter("deleteOrder"));
 			Query q_getAllFromOrderId = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrdId").setParameter("eOrdId", oldOrderId);
@@ -313,11 +328,9 @@ public class OrderController {
 	}
 
 	private List<Order> organizeOrder(int orderId, int custId) {
-//		eMngr.getTransaction().begin();
 		Query q_getOrdersByCompKey = eMngr.createQuery("Select e from Orders e where e.orderId = :eOrderId and e.custId = :eCustId")
 				.setParameter("eOrderId", orderId).setParameter("eCustId", custId);
 		List<Order> orders = q_getOrdersByCompKey.getResultList();
-//		eMngr.close();
 		return orders;
 	}
 
@@ -365,8 +378,7 @@ public class OrderController {
 		
 		if(cart.containsKey(qProdName)) cart.get(qProdName).AddQuantity(quantity);
 		else cart.put(qProdName, new CartItem(qProdName, qProdId, qProdPrice, quantity));
-		
-//		System.out.println(cart);
+
 		session.setAttribute("cart", cart);
 	}
 	

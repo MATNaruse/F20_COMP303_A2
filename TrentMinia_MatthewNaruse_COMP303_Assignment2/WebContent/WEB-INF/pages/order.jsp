@@ -1,7 +1,7 @@
 <!-- 
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
  -->
@@ -38,16 +38,14 @@
 			</tbody>
 		</table>
 		</form>
-		<c:if test="${cart != null}">
-			<c:choose>
-				<c:when test="${cart.isEmpty()}">
-					<button type="button" class="btn btn-primary" disabled>Cart Empty</button> 
-				</c:when>
-				<c:otherwise>
-					<a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
-				</c:otherwise>
-			</c:choose>
-		</c:if>
+		<c:choose>
+			<c:when test="${cart == null || cart.isEmpty()}">
+				<button type="button" class="btn btn-primary" disabled>Cart Empty</button> 
+			</c:when>
+			<c:otherwise>
+				<a href="/TrentMinia_MatthewNaruse_COMP303_Assignment2/checkout" class="btn btn-primary">Checkout</a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </div>
 
@@ -59,7 +57,7 @@
 			<form:form method="POST"
 			   action="/TrentMinia_MatthewNaruse_COMP303_Assignment2/update-cart"
 			   modelAttribute="product">
-				<div id="phoneCard" class="card">
+				<div id="phoneCard" class="card justify-content-center">
 					<img class="card-img-top" src="${prod.imgSrc}" alt="phone placeholder image">
 					<h5 class="card-title">${prod.modelName}</h5>
 					<h6 class="card-subtitle">${prod.brandName}</h6>

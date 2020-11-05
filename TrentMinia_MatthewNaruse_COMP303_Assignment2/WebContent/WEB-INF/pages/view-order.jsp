@@ -1,7 +1,7 @@
 <!-- 
 	COMP303-001 Assignment 2
-	Due Date: Nov 02, 2020
-	Submitted: ??? ## 2020
+	Due Date: Nov 04, 2020
+	Submitted: Nov 04, 2020
 	301 041 132 : Trent Minia
 	300 549 638 : Matthew Naruse
  -->
@@ -71,6 +71,7 @@
 					<button type="submit" class="btn btn-danger" name="deleteOrder" value="${orderInfo.orderId}">Delete Order</button>
 				</form:form>
 			</c:if>
+			<a class="btn btn-primary" href="profile">Return to Orders</a>
 		</div>
 	</div>
 <jsp:include page="/WEB-INF/pages/segments/footer.jsp" />
